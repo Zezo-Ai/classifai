@@ -11,36 +11,31 @@ describe( '[Language processing] Term Cleanup - OpenAI Tests', () => {
 	it( "ElasticPress option is hidden if the plugin isn't active", () => {
 		cy.disableElasticPress();
 
-		cy.visit(
-			'/wp-admin/tools.php?page=classifai&tab=language_processing&feature=feature_term_cleanup'
-		);
+		cy.visitFeatureSettings( 'language_processing/feature_term_cleanup' );
 
-		cy.get( '#use_ep' ).should( 'be.hidden' );
+		cy.get( '#use_ep' ).should( 'be.disabled' );
 	} );
 
 	it( 'Can save Term Cleanup settings', () => {
 		cy.enableElasticPress();
 
-		cy.visit(
-			'/wp-admin/tools.php?page=classifai&tab=language_processing&feature=feature_term_cleanup'
-		);
+		cy.visitFeatureSettings( 'language_processing/feature_term_cleanup' );
 
-		// Enabled Feature.
-		cy.get( '#status' ).check();
+		// Enable Feature.
+		cy.enableFeature();
 
 		// Setup Provider.
-		cy.get( '#provider' ).select( 'openai_embeddings' );
-		cy.get( '#api_key' ).clear().type( 'password' );
+		cy.selectProvider( 'openai_embeddings' );
+		cy.get( '#openai_api_key' ).clear().type( 'password' );
 
 		// Change all settings.
-		cy.get( '#use_ep' ).check();
-		cy.get( '#category' ).uncheck();
-		cy.get( '#category_threshold' ).clear().type( 80 );
-		cy.get( '#post_tag' ).check();
-		cy.get( '#post_tag_threshold' ).clear().type( 80 );
+		cy.get( '#category-enabled' ).uncheck();
+		cy.get( '#category-threshold' ).clear().type( 80 );
+		cy.get( '#post_tag-enabled' ).check();
+		cy.get( '#post_tag-threshold' ).clear().type( 80 );
 
 		// Save settings.
-		cy.get( '#submit' ).click();
+		cy.saveFeatureSettings();
 
 		// Ensure settings page now exists.
 		cy.visit(

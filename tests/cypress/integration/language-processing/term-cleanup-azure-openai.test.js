@@ -11,50 +11,40 @@ describe( '[Language processing] Term Cleanup - Azure OpenAI Tests', () => {
 	it( "ElasticPress option is hidden if the plugin isn't active", () => {
 		cy.disableElasticPress();
 
-		cy.visit(
-			'/wp-admin/tools.php?page=classifai&tab=language_processing&feature=feature_term_cleanup'
-		);
+		cy.visitFeatureSettings( 'language_processing/feature_term_cleanup' );
 
-		cy.get( '#use_ep' ).should( 'be.hidden' );
+		cy.get( '#use_ep' ).should( 'be.disabled' );
 	} );
 
 	it( 'Can save Term Cleanup settings', () => {
 		cy.enableElasticPress();
 
-		cy.visit(
-			'/wp-admin/tools.php?page=classifai&tab=language_processing&feature=feature_term_cleanup'
-		);
+		cy.visitFeatureSettings( 'language_processing/feature_term_cleanup' );
 
-		// Enabled Feature.
-		cy.get( '#status' ).check();
+		// Enable Feature.
+		cy.enableFeature();
 
 		// Setup Provider.
-		cy.get( '#provider' ).select( 'azure_openai_embeddings' );
-		cy.get(
-			'input[name="classifai_feature_term_cleanup[azure_openai_embeddings][endpoint_url]"]'
-		)
+		cy.selectProvider( 'azure_openai_embeddings' );
+		cy.get( 'input#azure_openai_embeddings_endpoint_url' )
 			.clear()
 			.type( 'https://e2e-test-azure-openai.test/' );
-		cy.get(
-			'input[name="classifai_feature_term_cleanup[azure_openai_embeddings][api_key]"]'
-		)
+		cy.get( 'input#azure_openai_embeddings_api_key' )
 			.clear()
 			.type( 'password' );
-		cy.get(
-			'input[name="classifai_feature_term_cleanup[azure_openai_embeddings][deployment]"]'
-		)
+		cy.get( 'input#azure_openai_embeddings_deployment' )
 			.clear()
 			.type( 'test' );
 
 		// Change all settings.
 		cy.get( '#use_ep' ).check();
-		cy.get( '#category' ).uncheck();
-		cy.get( '#category_threshold' ).clear().type( 80 );
-		cy.get( '#post_tag' ).check();
-		cy.get( '#post_tag_threshold' ).clear().type( 80 );
+		cy.get( '#category-enabled' ).uncheck();
+		cy.get( '#category-threshold' ).clear().type( 80 );
+		cy.get( '#post_tag-enabled' ).check();
+		cy.get( '#post_tag-threshold' ).clear().type( 80 );
 
 		// Save settings.
-		cy.get( '#submit' ).click();
+		cy.saveFeatureSettings();
 
 		// Ensure settings page now exists.
 		cy.visit(
