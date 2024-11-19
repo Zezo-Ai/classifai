@@ -83,7 +83,7 @@ export const TermCleanupSettings = () => {
 				<CheckboxControl
 					id="use_ep"
 					key="use_ep"
-					checked={ featureSettings.use_ep }
+					checked={ featureSettings?.use_ep }
 					disabled={ ! window.classifAISettings?.isEPinstalled }
 					label={ __( 'Use ElasticPress', 'classifai' ) }
 					onChange={ ( value ) => {
@@ -107,7 +107,7 @@ export const TermCleanupSettings = () => {
 								label={ __( 'Enable', 'classifai' ) }
 								value={ feature }
 								checked={
-									featureSettings.taxonomies[ feature ]
+									featureSettings?.taxonomies?.[ feature ]
 								}
 								onChange={ ( value ) => {
 									setFeatureSettings( {
@@ -123,7 +123,7 @@ export const TermCleanupSettings = () => {
 								label={ __( 'Threshold (%)', 'classifai' ) }
 								type="number"
 								value={
-									featureSettings.taxonomies[
+									featureSettings?.taxonomies?.[
 										`${ feature }_threshold`
 									] || defaultThreshold
 								}
