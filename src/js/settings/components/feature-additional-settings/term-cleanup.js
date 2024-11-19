@@ -97,10 +97,15 @@ export const TermCleanupSettings = () => {
 								id={ `${ feature }-enabled` }
 								label={ __( 'Enable', 'classifai' ) }
 								value={ feature }
-								checked={ featureSettings[ feature ] }
+								checked={
+									featureSettings.taxonomies[ feature ]
+								}
 								onChange={ ( value ) => {
 									setFeatureSettings( {
-										[ feature ]: value ? 1 : 0,
+										taxonomies: {
+											...featureSettings.taxonomies,
+											[ feature ]: value ? 1 : 0,
+										},
 									} );
 								} }
 							/>
@@ -109,13 +114,16 @@ export const TermCleanupSettings = () => {
 								label={ __( 'Threshold (%)', 'classifai' ) }
 								type="number"
 								value={
-									featureSettings[
+									featureSettings.taxonomies[
 										`${ feature }_threshold`
 									] || defaultThreshold
 								}
 								onChange={ ( value ) => {
 									setFeatureSettings( {
-										[ `${ feature }_threshold` ]: value,
+										taxonomies: {
+											...featureSettings.taxonomies,
+											[ `${ feature }_threshold` ]: value,
+										},
 									} );
 								} }
 							/>

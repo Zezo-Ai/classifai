@@ -320,9 +320,9 @@ class TermCleanup extends Feature {
 
 		foreach ( $taxonomies as $name => $label ) {
 			if ( 'category' === $name ) {
-				$tax_settings[ $name ] = true;
+				$tax_settings[ $name ] = 1;
 			} else {
-				$tax_settings[ $name ] = false;
+				$tax_settings[ $name ] = 0;
 			}
 
 			$tax_settings[ "{$name}_threshold" ] = 75;
@@ -330,7 +330,7 @@ class TermCleanup extends Feature {
 
 		$settings = [
 			'provider'   => OpenAIEmbeddings::ID,
-			'use_ep'     => 1,
+			'use_ep'     => is_elasticpress_installed() ? 1 : 0,
 			'taxonomies' => $tax_settings,
 		];
 
