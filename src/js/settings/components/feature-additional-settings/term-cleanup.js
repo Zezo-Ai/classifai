@@ -6,7 +6,7 @@ import {
 	CheckboxControl,
 	__experimentalInputControl as InputControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
 } from '@wordpress/components';
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -67,7 +67,8 @@ export const TermCleanupSettings = () => {
 					{ __( 'ElasticPress', 'classifai' ) }
 				</a>
 				{ __(
-					' plugin to use Elasticsearch for finding similar terms.', 'classifai'
+					' plugin to use Elasticsearch for finding similar terms.',
+					'classifai'
 				) }
 			</>
 		);
