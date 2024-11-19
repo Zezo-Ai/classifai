@@ -47,28 +47,37 @@ export const TermCleanupSettings = () => {
 		};
 	} );
 
-	let description = sprintf(
-		// translators: %1$s: opening anchor tag, %2$s: closing anchor tag
-		__(
-			'Install and activate the %1$sElasticPress%2$s plugin to use Elasticsearch for finding similar terms.',
-			'classifai'
-		),
-		'<a href="https://wordpress.org/plugins/elasticpress/" target="_blank">',
-		'</a>'
-	);
+	const Description = () => {
+		if ( window.classifAISettings?.isEPinstalled ) {
+			return __(
+				'Use Elasticsearch for finding similar terms; this will speed up the process for finding similar terms.',
+				'classifai'
+			);
+		}
 
-	if ( window.classifAISettings?.isEPinstalled ) {
-		description = __(
-			'Use Elasticsearch for finding similar terms; this will speed up the process for finding similar terms.',
-			'classifai'
+		return (
+			<>
+				{ __( 'Install and activate the ', 'classifai' ) }
+				<a
+					title={ __( 'Download ElasticPress', 'classifai' ) }
+					href="https://wordpress.org/plugins/elasticpress/"
+					target="_blank"
+					rel="noreferrer"
+				>
+					{ __( 'ElasticPress', 'classifai' ) }
+				</a>
+				{ __(
+					' plugin to use Elasticsearch for finding similar terms.', 'classifai'
+				) }
+			</>
 		);
-	}
+	};
 
 	return (
 		<>
 			<SettingsRow
 				label={ __( 'Use ElasticPress', 'classifai' ) }
-				description={ description }
+				description={ <Description /> }
 				className="settings-term-cleanup-use-ep"
 			>
 				<CheckboxControl

@@ -16,10 +16,9 @@ export const SettingsRow = ( props ) => {
 			<div className="settings-label">{ props.label }</div>
 			<div className="settings-control">
 				{ props.children }
-				<div
-					className="settings-description"
-					dangerouslySetInnerHTML={ { __html: props.description } }
-				></div>
+				<div className="settings-description">
+					{ props.description }
+				</div>
 			</div>
 		</div>
 	);
