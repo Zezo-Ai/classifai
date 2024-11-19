@@ -2,8 +2,10 @@
  * WordPress dependencies
  */
 import { useSelect, useDispatch } from '@wordpress/data';
-// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
-import { CheckboxControl } from '@wordpress/components';
+import {
+	CheckboxControl,
+	__experimentalInputControl as InputControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
+} from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 
 /**
@@ -11,6 +13,7 @@ import { __, sprintf } from '@wordpress/i18n';
  */
 import { SettingsRow } from '../settings-row';
 import { STORE_NAME } from '../../data/store';
+import { useTaxonomies } from '../../utils/utils';
 
 /**
  * Component for Term Cleanup feature settings.
@@ -25,6 +28,24 @@ export const TermCleanupSettings = () => {
 		select( STORE_NAME ).getFeatureSettings()
 	);
 	const { setFeatureSettings } = useDispatch( STORE_NAME );
+	const { taxonomies = [] } = useTaxonomies();
+	const options =
+		taxonomies
+			?.filter( ( taxonomy ) => {
+				return taxonomy.visibility?.publicly_queryable;
+			} )
+			?.map( ( taxonomy ) => ( {
+				label: taxonomy.name,
+				value: taxonomy.slug,
+			} ) ) || [];
+	const features = {};
+
+	options?.forEach( ( taxonomy ) => {
+		features[ taxonomy.value ] = {
+			label: taxonomy.label,
+			defaultThreshold: 75,
+		};
+	} );
 
 	let description = sprintf(
 		// translators: %1$s: opening anchor tag, %2$s: closing anchor tag
@@ -35,6 +56,7 @@ export const TermCleanupSettings = () => {
 		'<a href="https://wordpress.org/plugins/elasticpress/" target="_blank">',
 		'</a>'
 	);
+
 	if ( window.classifAISettings?.isEPinstalled ) {
 		description = __(
 			'Use Elasticsearch for finding similar terms; this will speed up the process for finding similar terms.',
@@ -43,23 +65,64 @@ export const TermCleanupSettings = () => {
 	}
 
 	return (
-		<SettingsRow
-			label={ __( 'Use ElasticPress', 'classifai' ) }
-			description={ description }
-			className="settings-term-cleanup-use-ep"
-		>
-			<CheckboxControl
-				id="use_ep"
-				key="use_ep"
-				checked={ featureSettings.use_ep }
-				disabled={ ! window.classifAISettings?.isEPinstalled }
+		<>
+			<SettingsRow
 				label={ __( 'Use ElasticPress', 'classifai' ) }
-				onChange={ ( value ) => {
-					setFeatureSettings( {
-						use_ep: value,
-					} );
-				} }
-			/>
-		</SettingsRow>
+				description={ description }
+				className="settings-term-cleanup-use-ep"
+			>
+				<CheckboxControl
+					id="use_ep"
+					key="use_ep"
+					checked={ featureSettings.use_ep }
+					disabled={ ! window.classifAISettings?.isEPinstalled }
+					label={ __( 'Use ElasticPress', 'classifai' ) }
+					onChange={ ( value ) => {
+						setFeatureSettings( {
+							use_ep: value,
+						} );
+					} }
+				/>
+			</SettingsRow>
+			<>
+				{ Object.keys( features ).map( ( feature ) => {
+					const { defaultThreshold, label } = features[ feature ];
+					return (
+						<SettingsRow
+							key={ feature }
+							label={ label }
+							className="settings-term-cleanup-taxonomies"
+						>
+							<CheckboxControl
+								id={ `${ feature }-enabled` }
+								label={ __( 'Enable', 'classifai' ) }
+								value={ feature }
+								checked={ featureSettings[ feature ] }
+								onChange={ ( value ) => {
+									setFeatureSettings( {
+										[ feature ]: value ? 1 : 0,
+									} );
+								} }
+							/>
+							<InputControl
+								id={ `${ feature }-threshold` }
+								label={ __( 'Threshold (%)', 'classifai' ) }
+								type="number"
+								value={
+									featureSettings[
+										`${ feature }_threshold`
+									] || defaultThreshold
+								}
+								onChange={ ( value ) => {
+									setFeatureSettings( {
+										[ `${ feature }_threshold` ]: value,
+									} );
+								} }
+							/>
+						</SettingsRow>
+					);
+				} ) }
+			</>
+		</>
 	);
 };
