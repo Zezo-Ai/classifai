@@ -572,3 +572,16 @@
 	margin: 0 auto;
 	top: 1rem;
 }
+
+.classifai-settings-dashboard {
+	margin-top: 36px;
+	max-width: 700px;
+}
+
+.classifai-feature-status {
+	margin-bottom: 0 !important;
+
+	.components-flex {
+		gap: 0 !important;
+	}
+}
