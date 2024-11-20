@@ -161,6 +161,7 @@ Cypress.Commands.add( 'enableFeatureForRoles', ( feature, roles ) => {
 	} );
 	cy.wait( 100 );
 	cy.saveFeatureSettings();
+	cy.wait( 500 );
 } );
 
 /**
@@ -189,6 +190,8 @@ Cypress.Commands.add( 'disableFeatureForRoles', ( feature, roles ) => {
 	cy.disableFeatureForUsers();
 
 	cy.saveFeatureSettings();
+
+	cy.wait( 500 );
 } );
 
 /**
