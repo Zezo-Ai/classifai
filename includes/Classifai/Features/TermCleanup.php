@@ -253,63 +253,6 @@ class TermCleanup extends Feature {
 	}
 
 	/**
-	 * Add any needed custom fields.
-	 */
-	public function add_custom_settings_fields() {
-		$settings = $this->get_settings();
-
-		if ( ! is_elasticpress_installed() ) {
-			add_settings_field(
-				'use_ep',
-				esc_html__( 'Use ElasticPress', 'classifai' ),
-				[ $this, 'render_input' ],
-				$this->get_option_name(),
-				$this->get_option_name() . '_section',
-				[
-					'label_for'     => 'use_ep',
-					'input_type'    => 'hidden',
-					'default_value' => '0',
-					'description'   => sprintf(
-						// translators: %1$s: ElasticPress plugin link starting tag, %2$s: ending tag.
-						__( 'Install and activate the %1$sElasticPress%2$s plugin to use Elasticsearch for finding similar terms.', 'classifai' ),
-						'<a href="https://wordpress.org/plugins/elasticpress/" target="_blank">',
-						'</a>'
-					),
-				]
-			);
-		} else {
-			add_settings_field(
-				'use_ep',
-				esc_html__( 'Use ElasticPress', 'classifai' ),
-				[ $this, 'render_input' ],
-				$this->get_option_name(),
-				$this->get_option_name() . '_section',
-				[
-					'label_for'     => 'use_ep',
-					'input_type'    => 'checkbox',
-					'default_value' => $settings['use_ep'],
-					'description'   => esc_html__( 'Use Elasticsearch for finding similar terms; this will speed up the process for finding similar terms.', 'classifai' ),
-				]
-			);
-		}
-
-		$taxonomies = $this->get_taxonomies();
-
-		foreach ( $taxonomies as $name => $label ) {
-			add_settings_field(
-				$name,
-				esc_html( $label ),
-				[ $this, 'render_taxonomies_settings' ],
-				$this->get_option_name(),
-				$this->get_option_name() . '_section',
-				[
-					'name' => $name,
-				]
-			);
-		}
-	}
-
-	/**
 	 * Returns the default settings for the feature.
 	 *
 	 * @return array
@@ -335,51 +278,6 @@ class TermCleanup extends Feature {
 		];
 
 		return $settings;
-	}
-
-	/**
-	 * Render the Taxonomies settings.
-	 *
-	 * @param array $args Settings for the inputs
-	 */
-	public function render_taxonomies_settings( array $args ) {
-		$name         = $args['name'];
-		$option_index = 'taxonomies';
-		$feature_args = [
-			'label_for'    => $name,
-			'option_index' => $option_index,
-			'input_type'   => 'checkbox',
-		];
-
-		$threshold_args = [
-			'label_for'     => "{$name}_threshold",
-			'input_type'    => 'number',
-			'option_index'  => $option_index,
-			'default_value' => 75,
-			'min'           => 0,
-			'max'           => 100,
-			'step'          => 1,
-		];
-		?>
-
-		<legend class="screen-reader-text">
-			<?php esc_html_e( 'Term Cleanup Taxonomy Settings', 'classifai' ); ?>
-		</legend>
-
-		<p>
-			<?php $this->render_input( $feature_args ); ?>
-			<label for="<?php echo esc_attr( $name ); ?>">
-				<?php esc_html_e( 'Enable', 'classifai' ); ?>
-			</label>
-		</p>
-
-		<p>
-			<label for="<?php echo esc_attr( "{$name}_threshold" ); ?>">
-				<?php esc_html_e( 'Threshold (%)', 'classifai' ); ?>
-			</label><br/>
-			<?php $this->render_input( $threshold_args ); ?>
-		</p>
-		<?php
 	}
 
 	/**
