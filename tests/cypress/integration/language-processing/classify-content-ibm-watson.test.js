@@ -65,7 +65,7 @@ describe( '[Language processing] Classify content (IBM Watson - NLU) Tests', () 
 
 	it( 'Can select Watson taxonomies "Language Processing" settings', () => {
 		cy.intercept( '/wp-json/wp/v2/taxonomies*' ).as( 'getTaxonomies' );
-		cy.visitFeatureSettings( 'language_processing' );
+		cy.visitFeatureSettings( 'language_processing/feature_classification' );
 		cy.wait( '@getTaxonomies' );
 
 		cy.enableFeature();
@@ -94,7 +94,7 @@ describe( '[Language processing] Classify content (IBM Watson - NLU) Tests', () 
 	} );
 
 	it( 'Check Classification Mode toggle button is off, display popup, then add/remove terms', () => {
-		cy.visitFeatureSettings( 'language_processing' );
+		cy.visitFeatureSettings( 'language_processing/feature_classification' );
 
 		cy.selectProvider( 'ibm_watson_nlu' );
 		cy.get(
@@ -465,7 +465,7 @@ describe( '[Language processing] Classify content (IBM Watson - NLU) Tests', () 
 
 	it( 'Can limit Natural Language Understanding features by users', () => {
 		// Disable access.
-		cy.visitFeatureSettings( 'language_processing&provider=watson_nlu' );
+		cy.visitFeatureSettings( 'language_processing/feature_classification' );
 
 		// Disable access for all roles.
 		cy.openUserPermissionsPanel();
@@ -482,7 +482,7 @@ describe( '[Language processing] Classify content (IBM Watson - NLU) Tests', () 
 		cy.verifyClassifyContentEnabled( false );
 
 		// Enable access to user.
-		cy.visitFeatureSettings( 'language_processing&provider=watson_nlu' );
+		cy.visitFeatureSettings( 'language_processing/feature_classification' );
 
 		// Disable access for all roles.
 		cy.get( '.settings-allowed-roles input[type="checkbox"]' ).uncheck( {
@@ -515,7 +515,7 @@ describe( '[Language processing] Classify content (IBM Watson - NLU) Tests', () 
 		cy.verifyClassifyContentEnabled( true );
 
 		// Enable access to admin role. (default)
-		cy.visitFeatureSettings( 'language_processing&provider=watson_nlu' );
+		cy.visitFeatureSettings( 'language_processing/feature_classification' );
 
 		// Enable access for all roles.
 		cy.openUserPermissionsPanel();
@@ -531,7 +531,7 @@ describe( '[Language processing] Classify content (IBM Watson - NLU) Tests', () 
 
 	it( 'Can enable user based opt out for Natural Language Understanding', () => {
 		// Opt Out from feature.
-		cy.visitFeatureSettings( 'language_processing&provider=watson_nlu' );
+		cy.visitFeatureSettings( 'language_processing/feature_classification' );
 		// Enable access for all roles.
 		cy.openUserPermissionsPanel();
 		cy.get( '.settings-allowed-roles input[type="checkbox"]' ).check( {
