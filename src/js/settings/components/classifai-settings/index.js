@@ -43,18 +43,6 @@ import { useSetupPage } from '../classifai-onboarding/hooks';
 const { services, features } = window.classifAISettings;
 
 /**
- * DefaultFeatureSettings component to navigate to the default feature settings.
- * If no feature is selected, it will redirect to the first feature.
- *
- * @return {React.ReactElement} The DefaultFeatureSettings component.
- */
-const DefaultFeatureSettings = () => {
-	const { service } = useParams();
-	const feature = Object.keys( features[ service ] || {} )[ 0 ];
-	return <Navigate to={ feature } replace />;
-};
-
-/**
  * FeatureSettingsWrapper component to render the feature settings.
  * If the feature is not available from URL parameters, it will redirect to the first feature of selected service.
  *
