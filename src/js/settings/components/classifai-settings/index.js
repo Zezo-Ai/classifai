@@ -189,8 +189,15 @@ export const ClassifAISettings = () => {
 			<HashRouter>
 				<Header />
 				<div className="classifai-settings-wrapper">
-					<h1 className='classifai-settings__main-title'>{ __( 'ClassifAI Settings ', 'classifai' ) }</h1>
-					<p>{ __( 'Turn features on or off and adjust your settings.', 'classifai' ) }</p>
+					<h1 className="classifai-settings__main-title">
+						{ __( 'ClassifAI Settings ', 'classifai' ) }
+					</h1>
+					<p>
+						{ __(
+							'Turn features on or off and adjust your settings.',
+							'classifai'
+						) }
+					</p>
 					<div className="classifai-admin-notices wrap"></div>
 					<ServiceNavigation />
 					<Routes>
