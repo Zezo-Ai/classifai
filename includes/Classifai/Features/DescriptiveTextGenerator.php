@@ -3,6 +3,7 @@
 namespace Classifai\Features;
 
 use Classifai\Providers\Azure\ComputerVision;
+use Classifai\Providers\OpenAI\ChatGPT;
 use Classifai\Services\ImageProcessing;
 use WP_REST_Server;
 use WP_REST_Request;
@@ -22,6 +23,13 @@ class DescriptiveTextGenerator extends Feature {
 	const ID = 'feature_descriptive_text_generator';
 
 	/**
+	 * Prompt for generating descriptive text.
+	 *
+	 * @var string
+	 */
+	public $prompt = 'You are an assistant that generates descriptions of images posted on a website. You will be provided with an image and will describe the main item you see in the image, giving details but staying concise. There is no need to say "the image contains" or similar, just describe what is actually in the image.';
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -33,6 +41,7 @@ class DescriptiveTextGenerator extends Feature {
 		// Contains just the providers this feature supports.
 		$this->supported_providers = [
 			ComputerVision::ID => __( 'Microsoft Azure AI Vision', 'classifai' ),
+			ChatGPT::ID        => __( 'OpenAI', 'classifai' ),
 		];
 	}
 
