@@ -205,12 +205,15 @@ describe( 'Image processing Tests', () => {
 		cy.disableFeatureForRoles( 'feature_descriptive_text_generator', [
 			'administrator',
 		] );
+		cy.wait( 500 );
 		cy.disableFeatureForRoles( 'feature_image_tags_generator', [
 			'administrator',
 		] );
+		cy.wait( 500 );
 		cy.disableFeatureForRoles( 'feature_image_cropping', [
 			'administrator',
 		] );
+		cy.wait( 500 );
 		cy.disableFeatureForRoles( 'feature_image_to_text_generator', [
 			'administrator',
 		] );
@@ -223,12 +226,15 @@ describe( 'Image processing Tests', () => {
 		cy.enableFeatureForRoles( 'feature_descriptive_text_generator', [
 			'administrator',
 		] );
+		cy.wait( 500 );
 		cy.enableFeatureForRoles( 'feature_image_tags_generator', [
 			'administrator',
 		] );
+		cy.wait( 500 );
 		cy.enableFeatureForRoles( 'feature_image_cropping', [
 			'administrator',
 		] );
+		cy.wait( 500 );
 		cy.enableFeatureForRoles( 'feature_image_to_text_generator', [
 			'administrator',
 		] );
@@ -248,12 +254,15 @@ describe( 'Image processing Tests', () => {
 		cy.disableFeatureForRoles( 'feature_descriptive_text_generator', [
 			'administrator',
 		] );
+		cy.wait( 500 );
 		cy.disableFeatureForRoles( 'feature_image_tags_generator', [
 			'administrator',
 		] );
+		cy.wait( 500 );
 		cy.disableFeatureForRoles( 'feature_image_cropping', [
 			'administrator',
 		] );
+		cy.wait( 500 );
 		cy.disableFeatureForRoles( 'feature_image_to_text_generator', [
 			'administrator',
 		] );
@@ -265,8 +274,11 @@ describe( 'Image processing Tests', () => {
 		cy.enableFeatureForUsers( 'feature_descriptive_text_generator', [
 			'admin',
 		] );
+		cy.wait( 500 );
 		cy.enableFeatureForUsers( 'feature_image_tags_generator', [ 'admin' ] );
+		cy.wait( 500 );
 		cy.enableFeatureForUsers( 'feature_image_cropping', [ 'admin' ] );
+		cy.wait( 500 );
 		cy.enableFeatureForUsers( 'feature_image_to_text_generator', [
 			'admin',
 		] );
