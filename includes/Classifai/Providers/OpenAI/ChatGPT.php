@@ -135,6 +135,17 @@ class ChatGPT extends Provider {
 			case TitleGeneration::ID:
 				$common_settings['number_of_suggestions'] = 1;
 				break;
+
+			case DescriptiveTextGenerator::ID:
+				$common_settings['prompt'] = [
+					[
+						'title'    => esc_html__( 'ClassifAI default', 'classifai' ),
+						'prompt'   => $this->feature_instance->prompt,
+						'original' => 1,
+						'default'  => 1,
+					],
+				];
+				break;
 		}
 
 		return $common_settings;
@@ -271,7 +282,7 @@ class ChatGPT extends Provider {
 		 *
 		 * @return {string} Prompt.
 		 */
-		$prompt = apply_filters( 'classifai_chatgpt_descriptive_text_prompt', get_default_prompt( $settings['prompt'] ?? [] ) ?? $feature->prompt, $post_id );
+		$prompt = apply_filters( 'classifai_chatgpt_descriptive_text_prompt', get_default_prompt( $settings[ static::ID ]['prompt'] ?? [] ) ?? $feature->prompt, $post_id );
 
 		/**
 		 * Filter the request body before sending to ChatGPT.
