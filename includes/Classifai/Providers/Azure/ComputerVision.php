@@ -540,7 +540,7 @@ class ComputerVision extends Provider {
 			return $details;
 		}
 
-		$tags = $details->tags ?? [];
+		$tags = $details->tagsResult->values ?? []; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 		set_transient( 'classifai_azure_computer_vision_image_tags_latest_response', $details, DAY_IN_SECONDS * 30 );
 
@@ -678,7 +678,7 @@ class ComputerVision extends Provider {
 		}
 
 		if ( $feature instanceof ImageTagsGenerator && $feature->is_feature_enabled() ) {
-			$api_features[] = 'Tags';
+			$api_features[] = 'tags';
 		}
 
 		$endpoint = add_query_arg( 'features', implode( ',', $api_features ), trailingslashit( $settings['endpoint_url'] ) . $this->analyze_url );
