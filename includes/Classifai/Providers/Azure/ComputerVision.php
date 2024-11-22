@@ -25,7 +25,7 @@ class ComputerVision extends Provider {
 	/**
 	 * @var string URL fragment to the analyze API endpoint
 	 */
-	protected $analyze_url = 'vision/v3.2/analyze';
+	protected $analyze_url = 'computervision/imageanalysis:analyze?api-version=2024-02-01';
 
 	/**
 	 * ComputerVision constructor.
@@ -443,30 +443,30 @@ class ComputerVision extends Provider {
 			return $details;
 		}
 
-		$captions = $details->description->captions ?? [];
+		$caption = isset( $details->captionResult ) ? (array) $details->captionResult : []; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 		set_transient( 'classifai_azure_computer_vision_descriptive_text_latest_response', $details, DAY_IN_SECONDS * 30 );
 
 		/**
-		 * Filter the captions returned from the API.
+		 * Filter the caption returned from the API.
 		 *
 		 * @since 1.4.0
 		 * @hook classifai_computer_vision_captions
 		 *
-		 * @param {array} $captions The returned caption data.
+		 * @param {array} $caption The returned caption data.
 		 *
 		 * @return {array} The filtered caption data.
 		 */
-		$captions = apply_filters( 'classifai_computer_vision_captions', $captions );
+		$caption = apply_filters( 'classifai_computer_vision_captions', $caption );
 
-		// Process the returned captions to see if they pass the threshold.
-		if ( is_array( $captions ) && ! empty( $captions ) ) {
+		// Process the returned caption to see if it passes the threshold.
+		if ( is_array( $caption ) && ! empty( $caption ) ) {
 			$settings  = $feature->get_settings( static::ID );
 			$threshold = $settings['descriptive_confidence_threshold'];
 
 			// Check the first caption to see if it passes the threshold.
-			if ( $captions[0]->confidence * 100 > $threshold ) {
-				$rtn = $captions[0]->text;
+			if ( $caption['confidence'] * 100 > $threshold ) {
+				$rtn = $caption['text'];
 			} else {
 				/**
 				 * Fires if there were no captions returned.
@@ -474,14 +474,14 @@ class ComputerVision extends Provider {
 				 * @since 1.5.0
 				 * @hook classifai_computer_vision_caption_failed
 				 *
-				 * @param {array} $tags      The caption data.
+				 * @param {array} $caption   The caption data.
 				 * @param {int}   $threshold The caption_threshold setting.
 				 */
-				do_action( 'classifai_computer_vision_caption_failed', $captions, $threshold );
+				do_action( 'classifai_computer_vision_caption_failed', $caption, $threshold );
 			}
 
-			// Save all the results for later.
-			update_post_meta( $attachment_id, 'classifai_computer_vision_captions', $captions );
+			// Save full results for later.
+			update_post_meta( $attachment_id, 'classifai_computer_vision_captions', $caption );
 		}
 
 		return $rtn;
@@ -674,14 +674,14 @@ class ComputerVision extends Provider {
 		$api_features = [];
 
 		if ( $feature instanceof DescriptiveTextGenerator && $feature->is_feature_enabled() && ! empty( $feature->get_alt_text_settings() ) ) {
-			$api_features[] = 'Description';
+			$api_features[] = 'caption';
 		}
 
 		if ( $feature instanceof ImageTagsGenerator && $feature->is_feature_enabled() ) {
 			$api_features[] = 'Tags';
 		}
 
-		$endpoint = add_query_arg( 'visualFeatures', implode( ',', $api_features ), trailingslashit( $settings['endpoint_url'] ) . $this->analyze_url );
+		$endpoint = add_query_arg( 'features', implode( ',', $api_features ), trailingslashit( $settings['endpoint_url'] ) . $this->analyze_url );
 
 		return $endpoint;
 	}

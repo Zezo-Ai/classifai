@@ -152,7 +152,7 @@ function computer_vision_max_filesize(): int {
 	 *
 	 * @return {int} Filtered filesize in bytes.
 	 */
-	return apply_filters( 'classifai_computer_vision_max_filesize', 4 * MB_IN_BYTES ); // 4MB default.
+	return apply_filters( 'classifai_computer_vision_max_filesize', 20 * MB_IN_BYTES ); // 20MB default.
 }
 
 /**
