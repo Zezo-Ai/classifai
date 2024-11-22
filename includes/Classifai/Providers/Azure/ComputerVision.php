@@ -377,23 +377,17 @@ class ComputerVision extends Provider {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param array $metadata Attachment metadata.
-	 * @param int   $attachment_id Attachment ID.
+	 * @param string $image_url URL of image to process.
+	 * @param int    $attachment_id Attachment ID.
 	 * @return string|WP_Error
 	 */
-	public function ocr_processing( array $metadata = [], int $attachment_id = 0 ) {
+	public function ocr_processing( string $image_url, int $attachment_id = 0 ) {
 		if ( ! wp_attachment_is_image( $attachment_id ) ) {
 			return new WP_Error( 'invalid', esc_html__( 'This attachment can\'t be processed.', 'classifai' ) );
 		}
 
 		$feature  = new ImageTextExtraction();
-		$settings = $feature->get_settings( static::ID );
-
-		if ( ! is_array( $metadata ) || ! is_array( $settings ) ) {
-			return new WP_Error( 'invalid', esc_html__( 'Invalid data found. Please check your settings and try again.', 'classifai' ) );
-		}
-
-		$should_ocr_scan = $feature->is_feature_enabled();
+		$rtn      = '';
 
 		/**
 		 * Filters whether to run OCR scanning on the current image.
@@ -401,25 +395,61 @@ class ComputerVision extends Provider {
 		 * @since 1.6.0
 		 * @hook classifai_should_ocr_scan_image
 		 *
-		 * @param {bool}  $should_ocr_scan Whether to run OCR scanning. The default value is set in ComputerVision settings.
-		 * @param {array} $metadata        Image metadata.
-		 * @param {int}   $attachment_id   The attachment ID.
+		 * @param {bool}  $should_scan   Whether to run OCR scanning. Defaults to feature being enabled.
+		 * @param {string} $image_url    URL of image to process.
+		 * @param {int}   $attachment_id The attachment ID.
 		 *
 		 * @return {bool} Whether to run OCR scanning.
 		 */
-		if ( ! apply_filters( 'classifai_should_ocr_scan_image', $should_ocr_scan, $metadata, $attachment_id ) ) {
+		if ( ! apply_filters( 'classifai_should_ocr_scan_image', $feature->is_feature_enabled(), $image_url, $attachment_id ) ) {
 			return '';
 		}
 
-		$image_url = wp_get_attachment_url( $attachment_id );
-		$scan      = $this->scan_image( $image_url, $feature );
+		$details = $this->scan_image( $image_url, $feature );
 
-		$ocr      = new OCR( $settings, $scan );
-		$response = $ocr->generate_ocr_data( $metadata, $attachment_id );
+		if ( is_wp_error( $details ) ) {
+			return $details;
+		}
 
-		set_transient( 'classifai_azure_computer_vision_image_text_extraction_latest_response', $scan, DAY_IN_SECONDS * 30 );
+		set_transient( 'classifai_azure_computer_vision_image_text_extraction_latest_response', $details, DAY_IN_SECONDS * 30 );
 
-		return $response;
+		if ( isset( $details->readResult ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$text = [];
+
+			// Iterate down the chain to find the text we want.
+			foreach ( $details->readResult as $result ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				foreach ( $result as $block ) {
+					foreach ( $block as $lines ) {
+						foreach ( $lines as $line ) {
+							if ( isset( $line->text ) ) {
+								$text[] = $line->text;
+							}
+						}
+					}
+				}
+			}
+
+			if ( ! empty( $text ) ) {
+
+				/**
+				 * Filter the text returned from the API.
+				 *
+				 * @since 1.6.0
+				 * @hook classifai_ocr_text
+				 *
+				 * @param {string} $text    The returned text data.
+				 * @param {object} $details The full scan results from the API.
+				 *
+				 * @return {string} The filtered text data.
+				 */
+				$rtn = apply_filters( 'classifai_ocr_text', implode( ' ', $text ), $details );
+
+				// Save all the results for later
+				update_post_meta( $attachment_id, 'classifai_computer_vision_ocr', $details );
+			}
+		}
+
+		return $rtn;
 	}
 
 	/**
@@ -681,6 +711,10 @@ class ComputerVision extends Provider {
 			$api_features[] = 'tags';
 		}
 
+		if ( $feature instanceof ImageTextExtraction && $feature->is_feature_enabled() ) {
+			$api_features[] = 'read';
+		}
+
 		$endpoint = add_query_arg( 'features', implode( ',', $api_features ), trailingslashit( $settings['endpoint_url'] ) . $this->analyze_url );
 
 		return $endpoint;
@@ -744,9 +778,6 @@ class ComputerVision extends Provider {
 		}
 
 		switch ( $route_to_call ) {
-			case 'ocr':
-				return $this->ocr_processing( $metadata, $attachment_id );
-
 			case 'crop':
 				return $this->smart_crop_image( $metadata, $attachment_id );
 		}
@@ -773,6 +804,9 @@ class ComputerVision extends Provider {
 		switch ( $route_to_call ) {
 			case 'descriptive_text':
 				return $this->generate_alt_tags( $image_url, $attachment_id );
+
+			case 'ocr':
+				return $this->ocr_processing( $image_url, $attachment_id );
 
 			case 'tags':
 				return $this->generate_image_tags( $image_url, $attachment_id );
