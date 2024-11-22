@@ -15,7 +15,7 @@ use Classifai\Providers\Provider;
 use WP_Error;
 
 use function Classifai\computer_vision_max_filesize;
-use function Classifai\get_largest_acceptable_image_url;
+use function Classifai\get_largest_size_and_dimensions_image_url;
 use function Classifai\get_modified_image_source_url;
 
 class ComputerVision extends Provider {
@@ -26,6 +26,22 @@ class ComputerVision extends Provider {
 	 * @var string URL fragment to the analyze API endpoint
 	 */
 	protected $analyze_url = 'computervision/imageanalysis:analyze?api-version=2024-02-01';
+
+	/**
+	 * Image types to process.
+	 *
+	 * @var array
+	 */
+	private $image_types_to_process = [
+		'bmp',
+		'gif',
+		'jpeg',
+		'png',
+		'webp',
+		'ico',
+		'tiff',
+		'mpo',
+	];
 
 	/**
 	 * ComputerVision constructor.
@@ -777,19 +793,36 @@ class ComputerVision extends Provider {
 			return new WP_Error( 'invalid', esc_html__( 'No valid metadata found.', 'classifai' ) );
 		}
 
-		switch ( $route_to_call ) {
-			case 'crop':
-				return $this->smart_crop_image( $metadata, $attachment_id );
+		if ( 'crop' === $route_to_call ) {
+			return $this->smart_crop_image( $metadata, $attachment_id );
+		}
+
+		// Check if the image is of a type we can process.
+		$mime_type          = get_post_mime_type( $attachment_id );
+		$matched_extensions = explode( '|', array_search( $mime_type, wp_get_mime_types(), true ) );
+		$process            = false;
+
+		foreach ( $matched_extensions as $ext ) {
+			if ( in_array( $ext, $this->image_types_to_process, true ) ) {
+				$process = true;
+				break;
+			}
+		}
+
+		if ( ! $process ) {
+			return new WP_Error( 'invalid', esc_html__( 'Image does not match a valid mime type.', 'classifai' ) );
 		}
 
 		$image_url = get_modified_image_source_url( $attachment_id );
 
 		if ( empty( $image_url ) || ! filter_var( $image_url, FILTER_VALIDATE_URL ) ) {
 			if ( isset( $metadata['sizes'] ) && is_array( $metadata['sizes'] ) ) {
-				$image_url = get_largest_acceptable_image_url(
+				$image_url = get_largest_size_and_dimensions_image_url(
 					get_attached_file( $attachment_id ),
 					wp_get_attachment_url( $attachment_id ),
-					$metadata['sizes'],
+					$metadata,
+					[ 50, 16000 ],
+					[ 50, 16000 ],
 					computer_vision_max_filesize()
 				);
 			} else {
@@ -798,7 +831,7 @@ class ComputerVision extends Provider {
 		}
 
 		if ( empty( $image_url ) ) {
-			return new WP_Error( 'error', esc_html__( 'Valid image size not found. Make sure the image is less than 4MB.', 'classifai' ) );
+			return new WP_Error( 'error', esc_html__( 'Image does not meet size requirements. Please ensure it is at least 50x50 but less than 16000x16000 and smaller than 20MB.', 'classifai' ) );
 		}
 
 		switch ( $route_to_call ) {
