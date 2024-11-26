@@ -510,10 +510,13 @@ class ComputerVision extends Provider {
 			$settings  = $feature->get_settings( static::ID );
 			$threshold = $settings['descriptive_confidence_threshold'];
 
-			// Check the first caption to see if it passes the threshold.
-			if ( $caption['confidence'] * 100 > $threshold ) {
-				$rtn = $caption['text'];
+			// Check the caption to see if it passes the threshold.
+			if ( isset( $caption['confidence'] ) && $caption['confidence'] * 100 > $threshold ) {
+				$rtn = ucfirst( $caption['text'] ?? '' );
 			} else {
+				/* translators: 1: Confidence score, 2: Threshold setting */
+				$rtn = new WP_Error( 'threshold', sprintf( esc_html__( 'Caption confidence score is %1$d%% which is lower than your threshold setting of %2$d%%', 'classifai' ), $caption['confidence'] * 100, $threshold ) );
+
 				/**
 				 * Fires if there were no captions returned.
 				 *
