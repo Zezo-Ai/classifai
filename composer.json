@@ -32,7 +32,7 @@
     "szepeviktor/phpstan-wordpress": "dev-master",
     "phpstan/extension-installer": "1.4.x-dev",
     "php-stubs/wp-cli-stubs": "dev-master",
-    "johnbillion/wp-compat": "dev-trunk",
+    "johnbillion/wp-compat": "^0.3.0",
     "phpstan/phpstan-deprecation-rules": "1.2.x-dev"
   },
   "scripts": {
