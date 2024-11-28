@@ -402,8 +402,8 @@ class ComputerVision extends Provider {
 			return new WP_Error( 'invalid', esc_html__( 'This attachment can\'t be processed.', 'classifai' ) );
 		}
 
-		$feature  = new ImageTextExtraction();
-		$rtn      = '';
+		$feature = new ImageTextExtraction();
+		$rtn     = '';
 
 		/**
 		 * Filters whether to run OCR scanning on the current image.
