@@ -32,13 +32,17 @@
 
 		.classifai-header-layout {
 			justify-content: space-between;
-			padding: 18px 28px;
+			padding: 18px 20px;
 			display: flex;
 			align-items: center;
 			margin: 0 auto;
+			padding: 18px 20px;
+			max-width: 1260px;
+    		box-sizing: content-box;
+			position: relative;
 
 			@media screen and (max-width: 782px) {
-				padding: 18px;
+				padding: 18px 10px;
 			}
 		}
 
