@@ -434,6 +434,19 @@
 	&__welcome-to-classifai {
 		text-align: center;
 	}
+
+	&__welcome-note {
+		margin-top: 36px;
+
+		p {
+			font-size: 14px;
+    		margin: 1.2em 0;
+		}
+
+		li {
+			margin-bottom: 12px;
+		}
+	}
 }
 
 // Previewer.

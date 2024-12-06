@@ -12,7 +12,6 @@ import apiFetch from '@wordpress/api-fetch';
  */
 import { STORE_NAME } from '../../data/store';
 import { useFeatureSettings } from '../../data/hooks';
-import { useSetupPage } from '../classifai-onboarding/hooks';
 
 /**
  * Save Settings Button component.
@@ -29,7 +28,6 @@ export const SaveSettingsButton = ( {
 	label = __( 'Save Settings', 'classifai' ),
 } ) => {
 	const { featureName } = useFeatureSettings();
-	const { isSetupPage, step } = useSetupPage();
 	const { createErrorNotice, removeNotices, removeNotice } =
 		useDispatch( noticesStore );
 	const notices = useSelect( ( select ) =>
@@ -60,11 +58,6 @@ export const SaveSettingsButton = ( {
 				? { [ featureName ]: settings[ featureName ] }
 				: settings,
 		};
-
-		if ( isSetupPage ) {
-			data.is_setup = true;
-			data.step = step;
-		}
 
 		apiFetch( {
 			path: '/classifai/v1/settings/',

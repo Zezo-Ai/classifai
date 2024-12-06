@@ -1,9 +1,4 @@
 /**
- * External dependencies
- */
-import { NavLink } from 'react-router-dom';
-
-/**
  * WordPress dependencies
  */
 import {

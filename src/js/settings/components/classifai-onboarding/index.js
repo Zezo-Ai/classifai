@@ -1,13 +1,8 @@
 /**
- * External dependencies
+ * WordPress dependencies
  */
-import { Outlet } from 'react-router-dom';
-
-// Export the steps of the onboarding process.
-export { EnableFeatures } from './enable-features';
-export { ConfigureFeatures } from './configure-features';
-export { FinishStep } from './finish-step';
-export { ClassifAIRegistrationStep } from './classifai-registration';
+import { __ } from '@wordpress/i18n';
+import { NavLink } from 'react-router-dom';
 
 /**
  * ClassifAI Onboarding Component.
@@ -20,7 +15,81 @@ export { ClassifAIRegistrationStep } from './classifai-registration';
 export const ClassifAIOnboarding = () => {
 	return (
 		<div className="classifai-setup__content">
-			<Outlet />
+			<h1>{ __( 'Welcome to ClassifAI', 'classifai' ) }</h1>
+			<div className="classifai-onboarding__welcome-note">
+				<p>
+					{ __(
+						'Our plug-in helps thousands of people across the world to speed up their workflow, using the power of AI.',
+						'classifai'
+					) }
+				</p>
+				<p>
+					{ __(
+						'To get started, you need to follow a few simple steps:',
+						'classifai'
+					) }
+				</p>
+				<ol>
+					<li>
+						<strong>
+							{ __(
+								'Switch on features that you want to use. ',
+								'classifai'
+							) }
+						</strong>
+						<NavLink to="/language_processing">
+							{ __(
+								'Visit the settings dashboard',
+								'classifai'
+							) }
+						</NavLink>
+					</li>
+					<li>
+						<strong>
+							{ __( 'Get an AI platform account.', 'classifai' ) }
+						</strong>
+						<a href="#">{/* {  TODO: Add link here } */}
+							{ __(
+								'Learn more about choosing AI platforms',
+								'classifai'
+							) }
+						</a>
+					</li>
+					<li>
+						<strong>
+							{ __(
+								'Connect your AI platform to ClassifAI. ',
+								'classifai'
+							) }
+						</strong>
+						<a href="#">{/* {  TODO: Add link here } */}
+							{ __( 'Find out how to get set up', 'classifai' ) }
+						</a>
+					</li>
+				</ol>
+
+				<p>
+					{ __(
+						'Once that’s done, you can start using the plug-in and see for yourself how much time you save.',
+						'classifai'
+					) }
+				</p>
+				<p>
+					{ __(
+						'If you need any help along the way, ',
+						'classifai'
+					) }
+					<a href="#">{/* {  TODO: Add link here } */}
+						{ __( 'browse our help topics.', 'classifai' ) }
+					</a>
+				</p>
+				<p>
+					{ __(
+						'Thanks for choosing ClassifAI from WordPress experts, 10up.',
+						'classifai'
+					) }
+				</p>
+			</div>
 		</div>
 	);
 };
