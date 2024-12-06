@@ -248,15 +248,8 @@ export const SaveSettingsButton = ( {
  */
 export const ClassifAIRegistration = () => {
 	return (
-		<div className="service-settings-wrapper">
-			<div className="classifai-tabs" aria-orientation="vertical">
-				<NavLink className={ 'active-tab classifai-tabs-item' }>
-					{ __( 'ClassifAI Registration', 'classifai' ) }
-				</NavLink>
-			</div>
-			<div className="feature-settings-wrapper">
-				<ClassifAIRegistrationForm />
-			</div>
+		<div className="classifai-settings-dashboard">
+			<ClassifAIRegistrationForm />
 		</div>
 	);
 };
