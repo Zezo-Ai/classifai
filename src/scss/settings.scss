@@ -131,6 +131,8 @@
 		width: 100%;
 		max-width: 1280px;
 		margin: 0 auto;
+		padding-right: 20px;
+		box-sizing: border-box;
 
 		.classifai-tabs {
 			display: flex;
@@ -139,7 +141,6 @@
 			justify-content: flex-start;
 			border-bottom: 1px solid #ccd0d4;
 			padding-bottom: 0;
-			margin-right: 20px;
 
 			&[aria-orientation="vertical"] {
 				flex-direction: column;
@@ -184,8 +185,7 @@
 			}
 
 			@media screen and (max-width: 782px) {
-				margin-right: 10px;
-				margin-top: 12px;
+				margin-top: 16px;
 			}
 
 			.classifai-tabs-item {
@@ -359,6 +359,10 @@
 
 		.components-radio-control__option {
 			margin-bottom: 4px;
+		}
+
+		@media screen and (max-width: 782px) {
+			padding-right: 10px;
 		}
 	}
 
@@ -576,7 +580,10 @@
 
 .classifai-settings-dashboard {
 	margin-top: 36px;
-	max-width: 700px;
+
+	@media screen and (max-width: 782px) {
+		margin-top: 12px;
+	}
 }
 
 .classifai-feature-status {

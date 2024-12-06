@@ -134,7 +134,6 @@ export const ServiceSettings = () => {
 								<NavLink to={ feature } key={ feature }>
 									<Button
 										variant="secondary"
-										size="small"
 										disabled={
 											'0' ===
 											getFeatureSettings(
@@ -143,7 +142,7 @@ export const ServiceSettings = () => {
 											)
 										}
 									>
-										{ __( 'Edit', 'classifai' ) }
+										{ __( 'Settings', 'classifai' ) }
 									</Button>
 								</NavLink>
 							</FlexItem>

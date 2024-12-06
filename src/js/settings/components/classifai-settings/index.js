@@ -61,6 +61,7 @@ const FeatureSettingsWrapper = () => {
 		<FeatureContext.Provider value={ { featureName: feature } }>
 			<Button
 				icon={ <Icon icon="arrow-left-alt2" /> }
+				iconSize={ 16 }
 				onClick={ () => navigate( -1 ) }
 			>
 				{ __( 'Back to dashboard', 'classifai' ) }
@@ -189,15 +190,6 @@ export const ClassifAISettings = () => {
 			<HashRouter>
 				<Header />
 				<div className="classifai-settings-wrapper">
-					<h1 className="classifai-settings__main-title">
-						{ __( 'ClassifAI Settings ', 'classifai' ) }
-					</h1>
-					<p>
-						{ __(
-							'Turn features on or off and adjust your settings.',
-							'classifai'
-						) }
-					</p>
 					<div className="classifai-admin-notices wrap"></div>
 					<ServiceNavigation />
 					<Routes>
