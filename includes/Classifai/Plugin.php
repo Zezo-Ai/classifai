@@ -236,7 +236,7 @@ class Plugin {
 				'setup'    => sprintf(
 					'<a href="%s"> %s </a>',
 					esc_url( $setup_url ),
-					esc_html__( 'Set up', 'classifai' )
+					esc_html__( 'Welcome', 'classifai' )
 				),
 				'settings' => sprintf(
 					'<a href="%s"> %s </a>',
