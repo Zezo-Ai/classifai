@@ -5,6 +5,8 @@
  * @package ClassifAI
  */
 
+/* phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage */
+
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $active_page = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'classifai_settings';
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
