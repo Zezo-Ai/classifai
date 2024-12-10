@@ -331,7 +331,7 @@ class ImageGeneration extends Feature {
 
 		<?php
 		// Template for a single generated image.
-		/* phpcs:disable WordPressVIPMinimum.Security.Mustache.OutputNotation */
+		/* phpcs:disable WordPressVIPMinimum.Security.Mustache.OutputNotation,PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage */
 		?>
 		<script type="text/html" id="tmpl-dalle-image">
 			<div class="generated-image">
