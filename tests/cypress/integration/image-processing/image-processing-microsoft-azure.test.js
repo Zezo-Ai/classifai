@@ -141,7 +141,7 @@ describe( 'Image processing Tests', () => {
 		cy.visitFeatureSettings(
 			'image_processing/feature_image_to_text_generator'
 		);
-		cy.wait( 1500 ); // Add delay to avoid flaky test in WP minimum (6.1) environment.
+		cy.wait( 1500 ); // Add delay to avoid flaky test in WP minimum environment.
 		cy.disableFeature();
 		cy.saveFeatureSettings();
 
