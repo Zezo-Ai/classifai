@@ -1,4 +1,5 @@
 <?php
+/* phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage */
 
 namespace Classifai\Admin;
 
@@ -281,6 +282,7 @@ class Notifications {
 		$nonce          = wp_create_nonce( 'classifai_dismissible_notice' );
 		$admin_ajax_url = esc_url( admin_url( 'admin-ajax.php' ) );
 
+		/* phpcs:disable Squiz.PHP.Heredoc.NotAllowed */
 		$script = <<<EOD
 jQuery( function() {
 	const dismissNotices = document.querySelectorAll( '.classifai-dismissible-notice' );
@@ -315,6 +317,7 @@ jQuery( function() {
 	});
 });
 EOD;
+		/* phpcs:enable Squiz.PHP.Heredoc.NotAllowed */
 
 		wp_add_inline_script( 'common', $script, 'after' );
 	}
