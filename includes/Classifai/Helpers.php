@@ -302,7 +302,7 @@ function attachment_is_pdf( $post ): bool {
  * @param string $attribute Optional attribute to get. Can be version or dependencies.
  * @return string|array
  */
-function get_asset_info( string $slug, string $attribute = null ) {
+function get_asset_info( string $slug, ?string $attribute = null ) {
 	if ( file_exists( CLASSIFAI_PLUGIN_DIR . '/dist/' . $slug . '.asset.php' ) ) {
 		$asset = require CLASSIFAI_PLUGIN_DIR . '/dist/' . $slug . '.asset.php';
 	} else {
@@ -659,6 +659,27 @@ function get_classification_mode(): string {
 	}
 
 	return $value;
+}
+
+/**
+ * Determine if the legacy settings panel should be used.
+ *
+ * @since x.x.x
+ *
+ * @return bool
+ */
+function should_use_legacy_settings_panel(): bool {
+	/**
+	 * Filter to determine if the legacy settings panel should be used.'
+	 *
+	 * @since x.x.x
+	 * @hook classifai_use_legacy_settings_panel
+	 *
+	 * @param {bool} $use_legacy_settings_panel Whether to use the legacy settings panel.
+	 *
+	 * @return {bool} Whether to use the legacy settings panel.
+	 */
+	return apply_filters( 'classifai_use_legacy_settings_panel', false );
 }
 
 /**
