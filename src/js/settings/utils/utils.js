@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { useSelect, useDispatch } from '@wordpress/data';
-import { useMemo } from '@wordpress/element';
 
 // Update URL based on the current tab and feature selected
 export const updateUrl = ( key, value ) => {
