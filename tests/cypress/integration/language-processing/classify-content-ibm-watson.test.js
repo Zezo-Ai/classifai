@@ -64,9 +64,7 @@ describe( '[Language processing] Classify content (IBM Watson - NLU) Tests', () 
 	} );
 
 	it( 'Can select Watson taxonomies "Language Processing" settings', () => {
-		cy.intercept( '/wp-json/wp/v2/taxonomies*' ).as( 'getTaxonomies' );
 		cy.visitFeatureSettings( 'language_processing/feature_classification' );
-		cy.wait( '@getTaxonomies' );
 
 		cy.enableFeature();
 		cy.get( '#category-taxonomy' ).select( 'watson-category' );
