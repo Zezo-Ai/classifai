@@ -7,6 +7,7 @@ use Classifai\Services\ServicesManager;
 
 use function Classifai\get_asset_info;
 use function Classifai\get_plugin;
+use function Classifai\get_post_types_for_language_settings;
 use function Classifai\get_services_menu;
 use function Classifai\get_post_statuses_for_language_settings;
 use function Classifai\is_elasticpress_installed;
@@ -84,14 +85,26 @@ class Settings {
 
 		wp_set_script_translations( 'classifai-settings', 'classifai' );
 
+		$post_types         = get_post_types_for_language_settings();
+		$excerpt_post_types = array();
+		$post_type_options  = array();
+		foreach ( $post_types as $post_type ) {
+			$post_type_options[ $post_type->name ] = $post_type->label;
+			if ( post_type_supports( $post_type->name, 'excerpt' ) ) {
+				$excerpt_post_types[ $post_type->name ] = $post_type->label;
+			}
+		}
+
 		$data = array(
-			'features'      => $this->get_features(),
-			'services'      => get_services_menu(),
-			'settings'      => $this->get_settings(),
-			'dashboardUrl'  => admin_url( '/' ),
-			'nonce'         => wp_create_nonce( 'classifai-previewer-action' ),
-			'postStatuses'  => get_post_statuses_for_language_settings(),
-			'isEPinstalled' => is_elasticpress_installed(),
+			'features'         => $this->get_features(),
+			'services'         => get_services_menu(),
+			'settings'         => $this->get_settings(),
+			'dashboardUrl'     => admin_url( '/' ),
+			'nonce'            => wp_create_nonce( 'classifai-previewer-action' ),
+			'postTypes'        => $post_type_options,
+			'excerptPostTypes' => $excerpt_post_types,
+			'postStatuses'     => get_post_statuses_for_language_settings(),
+			'isEPinstalled'    => is_elasticpress_installed(),
 		);
 
 		wp_add_inline_script(
