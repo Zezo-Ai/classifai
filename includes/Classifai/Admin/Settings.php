@@ -5,6 +5,7 @@ namespace Classifai\Admin;
 use Classifai\Features\Classification;
 use Classifai\Services\ServicesManager;
 
+use Classifai\Taxonomy\TaxonomyFactory;
 use function Classifai\get_asset_info;
 use function Classifai\get_plugin;
 use function Classifai\get_post_types_for_language_settings;
@@ -105,6 +106,7 @@ class Settings {
 			'excerptPostTypes' => $excerpt_post_types,
 			'postStatuses'     => get_post_statuses_for_language_settings(),
 			'isEPinstalled'    => is_elasticpress_installed(),
+			'nluTaxonomies'    => $this->get_nlu_taxonomies(),
 		);
 
 		wp_add_inline_script(
@@ -180,6 +182,38 @@ class Settings {
 
 		return $services;
 	}
+
+	/**
+	 * Return the list of NLU taxonomies for the Classification feature settings.
+	 *
+	 * @return array
+	 */
+	public function get_nlu_taxonomies(): array {
+		$taxonomies       = [];
+		$taxonomy_factory = new TaxonomyFactory();
+		$nlu_taxonomies   = $taxonomy_factory->get_supported_taxonomies();
+		foreach ( $nlu_taxonomies as $taxonomy ) {
+			$taxonomy_instance = $taxonomy_factory->build( $taxonomy );
+			if ( ! $taxonomy_instance ) {
+				continue;
+			}
+
+			$taxonomies[ $taxonomy_instance->get_name() ] = $taxonomy_instance->get_singular_label();
+		}
+
+		/**
+		 * Filter IBM Watson NLU taxonomies shown in settings.
+		 *
+		 * @since x.x.x
+		 * @hook classifai_settings_ibm_watson_nlu_taxonomies
+		 *
+		 * @param {array} $taxonomies Array of IBM Watson NLU taxonomies.
+		 *
+		 * @return {array} Array of taxonomies.
+		 */
+		return apply_filters( 'classifai_settings_ibm_watson_nlu_taxonomies', $taxonomies );
+	}
+
 
 	/**
 	 * Get the settings.

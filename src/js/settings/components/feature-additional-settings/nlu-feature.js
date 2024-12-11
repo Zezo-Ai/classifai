@@ -30,6 +30,7 @@ export const NLUFeatureSettings = () => {
 	const { setFeatureSettings } = useDispatch( STORE_NAME );
 	const classificationFeature = getFeature( 'feature_classification' );
 	const taxonomies = classificationFeature.taxonomies || {};
+	const { nluTaxonomies = {} } = window.classifAISettings;
 
 	const nluFeatures = {
 		category: {
@@ -59,6 +60,19 @@ export const NLUFeatureSettings = () => {
 			} );
 		}
 	} );
+
+	/*
+	 * Add NLU-specific taxonomies to the list if IBM Watson NLU is selected as the provider.
+	 *
+	 * This ensures that the NLU taxonomies are available in the settings,
+	 * as NLU-specific taxonomies are registered only if the Classification feature is enabled and IBM Watson NLU is selected as the provider.
+	 */
+	if ( 'ibm_watson_nlu' === featureSettings.provider ) {
+		Object.keys( nluTaxonomies ).forEach( ( taxonomy ) => {
+			optionsObjects[ taxonomy ] = nluTaxonomies[ taxonomy ];
+		} );
+	}
+
 	const options =
 		Object.keys( optionsObjects || {} ).map( ( taxonomy ) => ( {
 			label: optionsObjects[ taxonomy ],
@@ -68,26 +82,6 @@ export const NLUFeatureSettings = () => {
 	let features = {};
 	if ( 'ibm_watson_nlu' === featureSettings.provider ) {
 		features = nluFeatures;
-		if ( options ) {
-			options.push(
-				{
-					label: __( 'Watson Category', 'classifai' ),
-					value: 'watson-category',
-				},
-				{
-					label: __( 'Watson Keyword', 'classifai' ),
-					value: 'watson-keyword',
-				},
-				{
-					label: __( 'Watson Entity', 'classifai' ),
-					value: 'watson-entity',
-				},
-				{
-					label: __( 'Watson Concept', 'classifai' ),
-					value: 'watson-concept',
-				}
-			);
-		}
 	} else {
 		options?.forEach( ( taxonomy ) => {
 			features[ taxonomy.value ] = {
