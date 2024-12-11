@@ -1123,6 +1123,46 @@ abstract class Feature {
 	}
 
 	/**
+	 * Return the list of taxonomies for the feature settings.
+	 *
+	 * @param array $post_types Array of post types to filter taxonomies by, leave empty to get all taxonomies.
+	 * @return array
+	 */
+	public function get_taxonomies( array $post_types = [] ): array {
+		$taxonomies = get_taxonomies( [], 'objects' );
+		$taxonomies = array_filter( $taxonomies, 'is_taxonomy_viewable' );
+		$supported  = [];
+
+		foreach ( $taxonomies as $taxonomy ) {
+			// Remove this taxonomy if it doesn't support at least one of our post types.
+			if (
+				(
+					! empty( $post_types ) &&
+					empty( array_intersect( $post_types, $taxonomy->object_type ) )
+				) ||
+				'post_format' === $taxonomy->name
+			) {
+				continue;
+			}
+
+			$supported[ $taxonomy->name ] = $taxonomy->labels->singular_name;
+		}
+
+		/**
+		 * Filter taxonomies shown in settings.
+		 *
+		 * @since 3.0.0
+		 * @hook classifai_{feature}_setting_taxonomies
+		 *
+		 * @param {array} $supported Array of supported taxonomies.
+		 * @param {object} $this Current instance of the class.
+		 *
+		 * @return {array} Array of taxonomies.
+		 */
+		return apply_filters( 'classifai_' . static::ID . '_setting_taxonomies', $supported, $this );
+	}
+
+	/**
 	 * Returns array of instances of provider classes registered for the service.
 	 *
 	 * @internal
