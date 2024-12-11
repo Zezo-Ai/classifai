@@ -29,7 +29,7 @@ export const NLUFeatureSettings = () => {
 	);
 	const { setFeatureSettings } = useDispatch( STORE_NAME );
 	const classificationFeature = getFeature( 'feature_classification' );
-	const taxonomies = classificationFeature.taxonomies || {};
+	const taxonomies = classificationFeature.taxonomiesByPostTypes || {};
 	const { nluTaxonomies = {} } = window.classifAISettings;
 
 	const nluFeatures = {

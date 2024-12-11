@@ -356,6 +356,34 @@ class ImageTagsGenerator extends Feature {
 	}
 
 	/**
+	 * Return the list of Attachment taxonomies for the feature settings.
+	 *
+	 * @param array $object_types Array of object types to filter taxonomies by, not in use.
+	 * @return array
+	 */
+	public function get_taxonomies( array $object_types = [] ): array {
+		$attachment_taxonomies = get_object_taxonomies( 'attachment', 'objects' );
+		$taxonomies            = [];
+
+		foreach ( $attachment_taxonomies as $name => $taxonomy ) {
+			$taxonomies[ $name ] = $taxonomy->label;
+		}
+
+		/**
+		 * Filter taxonomies shown in settings.
+		 *
+		 * @since x.x.x
+		 * @hook classifai_feature_image_tags_generator_setting_taxonomies
+		 *
+		 * @param {array} $supported Array of supported image taxonomies.
+		 * @param {object} $this Current instance of the class.
+		 *
+		 * @return {array} Array of taxonomies.
+		 */
+		return apply_filters( 'classifai_' . static::ID . '_setting_taxonomies', $taxonomies, $this );
+	}
+
+	/**
 	 * Generates feature setting data required for migration from
 	 * ClassifAI < 3.0.0 to 3.0.0
 	 *

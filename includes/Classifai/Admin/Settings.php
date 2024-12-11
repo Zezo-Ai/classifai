@@ -167,15 +167,16 @@ class Settings {
 					'providers'          => $feature->get_providers(),
 					'roles'              => $feature->get_roles(),
 					'enable_description' => $feature->get_enable_description(),
+					'taxonomies'         => $feature->get_taxonomies(),
 				);
 
-				// Add taxonomies for language processing features.
+				// Add taxonomies under post types for language processing features to allow filtering by post type.
 				if ( 'language_processing' === $service->get_menu_slug() && ! empty( $post_types ) ) {
 					$post_types_taxonomies = array();
 					foreach ( $post_types as $post_type ) {
 						$post_types_taxonomies[ $post_type->name ] = $feature->get_taxonomies( [ $post_type->name ] );
 					}
-					$services[ $service->get_menu_slug() ][ $feature::ID ]['taxonomies'] = $post_types_taxonomies;
+					$services[ $service->get_menu_slug() ][ $feature::ID ]['taxonomiesByPostTypes'] = $post_types_taxonomies;
 				}
 			}
 		}
