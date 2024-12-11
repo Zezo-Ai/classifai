@@ -155,6 +155,7 @@ class Settings {
 			return $services;
 		}
 
+		$post_types = get_post_types_for_language_settings();
 		foreach ( $service_manager->service_classes as $service ) {
 			$services[ $service->get_menu_slug() ] = array();
 
@@ -165,6 +166,15 @@ class Settings {
 					'roles'              => $feature->get_roles(),
 					'enable_description' => $feature->get_enable_description(),
 				);
+
+				// Add taxonomies for language processing features.
+				if ( 'language_processing' === $service->get_menu_slug() && ! empty( $post_types ) ) {
+					$post_types_taxonomies = array();
+					foreach ( $post_types as $post_type ) {
+						$post_types_taxonomies[ $post_type->name ] = $feature->get_taxonomies( [ $post_type->name ] );
+					}
+					$services[ $service->get_menu_slug() ][ $feature::ID ]['taxonomies'] = $post_types_taxonomies;
+				}
 			}
 		}
 

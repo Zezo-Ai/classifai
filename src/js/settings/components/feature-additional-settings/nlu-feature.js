@@ -14,7 +14,7 @@ import { __, sprintf } from '@wordpress/i18n';
  */
 import { SettingsRow } from '../settings-row';
 import { STORE_NAME } from '../../data/store';
-import { useTaxonomies } from '../../utils/utils';
+import { getFeature } from '../../utils/utils';
 
 /**
  * Component for render settings fields when IBM Watson NLU is selected as the provider.
@@ -28,7 +28,8 @@ export const NLUFeatureSettings = () => {
 		select( STORE_NAME ).getFeatureSettings()
 	);
 	const { setFeatureSettings } = useDispatch( STORE_NAME );
-	const { taxonomies = [] } = useTaxonomies();
+	const classificationFeature = getFeature( 'feature_classification' );
+	const taxonomies = classificationFeature.taxonomies || {};
 
 	const nluFeatures = {
 		category: {
@@ -49,18 +50,20 @@ export const NLUFeatureSettings = () => {
 		},
 	};
 
+	const optionsObjects = {};
+	Object.keys( taxonomies ).forEach( ( postType ) => {
+		if ( featureSettings.post_types?.[ postType ] === postType ) {
+			const postTypeTaxonomies = taxonomies[ postType ] || {};
+			Object.keys( postTypeTaxonomies ).forEach( ( taxonomy ) => {
+				optionsObjects[ taxonomy ] = postTypeTaxonomies[ taxonomy ];
+			} );
+		}
+	} );
 	const options =
-		taxonomies
-			?.filter( ( taxonomy ) => {
-				const intersection = ( taxonomy.types || [] ).filter(
-					( type ) => featureSettings.post_types?.[ type ] === type
-				);
-				return intersection.length > 0;
-			} )
-			?.map( ( taxonomy ) => ( {
-				label: taxonomy.name,
-				value: taxonomy.slug,
-			} ) ) || [];
+		Object.keys( optionsObjects || {} ).map( ( taxonomy ) => ( {
+			label: optionsObjects[ taxonomy ],
+			value: taxonomy,
+		} ) ) || [];
 
 	let features = {};
 	if ( 'ibm_watson_nlu' === featureSettings.provider ) {
