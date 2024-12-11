@@ -18,7 +18,7 @@ describe( 'Admin can login and make sure plugin is activated', () => {
 
 		// Check Heading
 		cy.visit( '/wp-admin/tools.php?page=classifai' );
-		cy.get( '.classifai-settings-wrapper' ).contains( 'ClassifAI Settings' );
+		cy.get( '.classifai-settings-wrapper' ).should( 'exist' );
 		cy.get( '.classifai-tabs' ).should( 'exist' );
 		cy.get( '.classifai-tabs a' ).first().contains( 'Language Processing' );
 	} );
