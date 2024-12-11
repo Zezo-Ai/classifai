@@ -23,7 +23,6 @@ import { ClassifAILogo } from '../../utils/icons';
  * @return {React.ReactElement} Header component.
  */
 export const Header = () => {
-
 	return (
 		<header id="classifai-header">
 			<div className="classifai-header-layout">

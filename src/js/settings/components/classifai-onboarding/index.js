@@ -48,12 +48,6 @@ export const ClassifAIOnboarding = () => {
 						<strong>
 							{ __( 'Get an AI platform account.', 'classifai' ) }
 						</strong>
-						<a href="#">{/* {  TODO: Add link here } */}
-							{ __(
-								'Learn more about choosing AI platforms',
-								'classifai'
-							) }
-						</a>
 					</li>
 					<li>
 						<strong>
@@ -62,7 +56,11 @@ export const ClassifAIOnboarding = () => {
 								'classifai'
 							) }
 						</strong>
-						<a href="#">{/* {  TODO: Add link here } */}
+						<a
+							href="https://github.com/10up/classifai?tab=readme-ov-file#set-up-classification-via-ibm-watson"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
 							{ __( 'Find out how to get set up', 'classifai' ) }
 						</a>
 					</li>
@@ -79,7 +77,11 @@ export const ClassifAIOnboarding = () => {
 						'If you need any help along the way, ',
 						'classifai'
 					) }
-					<a href="#">{/* {  TODO: Add link here } */}
+					<a
+						href="https://github.com/10up/classifai#frequently-asked-questions"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
 						{ __( 'browse our help topics.', 'classifai' ) }
 					</a>
 				</p>
