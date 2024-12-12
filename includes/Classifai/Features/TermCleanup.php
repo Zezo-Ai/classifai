@@ -177,7 +177,7 @@ class TermCleanup extends Feature {
 			}
 			?>
 
-			<div class="classifai-wrap wrap classifai">
+			<div class="classifai-wrap wrap classifai classifai-term-cleanup">
 				<h2><?php esc_html_e( 'Term Cleanup', 'classifai' ); ?></h2>
 				<h2 class="nav-tab-wrapper">
 					<?php
@@ -200,8 +200,8 @@ class TermCleanup extends Feature {
 					}
 					?>
 				</h2>
-				<div class="classifai-wrapper">
-					<div class="classifai-content-wrapper">
+				<div class="classifai-term-cleanup-wrapper">
+					<div class="classifai-term-cleanup-content-wrapper">
 						<h3 class="screen-reader-text"><?php echo esc_html( $all_taxonomies[ $active_tax ] ); ?></h3>
 					<?php
 					if ( $this->background_process && $this->background_process->in_progress() ) {
@@ -281,6 +281,22 @@ class TermCleanup extends Feature {
 	}
 
 	/**
+	 * Sanitizes the default feature settings.
+	 *
+	 * @param array $new_settings Settings being saved.
+	 * @return array
+	 */
+	public function sanitize_default_feature_settings( array $new_settings ): array {
+		if ( empty( $new_settings['use_ep'] ) || 1 !== (int) $new_settings['use_ep'] ) {
+			$new_settings['use_ep'] = 'no';
+		} else {
+			$new_settings['use_ep'] = '1';
+		}
+
+		return $new_settings;
+	}
+
+	/**
 	 * Get meta key for embeddings.
 	 *
 	 * @return string
@@ -324,38 +340,6 @@ class TermCleanup extends Feature {
 		}
 
 		return $enabled_taxonomies;
-	}
-
-	/**
-	 * Return the list of taxonomies
-	 *
-	 * @return array
-	 */
-	public function get_taxonomies(): array {
-		$taxonomies = get_taxonomies( [], 'objects' );
-		$taxonomies = array_filter( $taxonomies, 'is_taxonomy_viewable' );
-		$supported  = [];
-
-		foreach ( $taxonomies as $taxonomy ) {
-			if ( 'post_format' === $taxonomy->name ) {
-				continue;
-			}
-
-			$supported[ $taxonomy->name ] = $taxonomy->labels->name;
-		}
-
-		/**
-		 * Filter taxonomies shown in settings.
-		 *
-		 * @since x.x.x
-		 * @hook classifai_feature_term_cleanup_setting_taxonomies
-		 *
-		 * @param {array} $supported Array of supported taxonomies.
-		 * @param {object} $this Current instance of the class.
-		 *
-		 * @return {array} Array of taxonomies.
-		 */
-		return apply_filters( 'classifai_' . static::ID . '_setting_taxonomies', $supported, $this );
 	}
 
 	/**
