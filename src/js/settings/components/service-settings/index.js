@@ -16,6 +16,8 @@ import {
 	Button,
 	Panel,
 	PanelBody,
+	Notice,
+	Icon,
 } from '@wordpress/components';
 import { useEffect, useRef } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
@@ -24,7 +26,27 @@ import apiFetch from '@wordpress/api-fetch';
  * Internal dependencies
  */
 import { STORE_NAME } from '../../data/store';
+import { isProviderConfigurationNeeded } from '../../utils/utils';
 const { features } = window.classifAISettings;
+
+/**
+ * ConfigureProviderNotice component to render the notice when the provider is not configured correctly.
+ *
+ * @return {Object} The ServiceSettings component.
+ */
+const ConfigureProviderNotice = () => (
+	<Notice
+		status="warning"
+		isDismissible={ false }
+		className="classifai-configure-provider-notice"
+	>
+		<Icon icon="warning" />{ ' ' }
+		{ __(
+			'The feature is enabled but needs provider configuration. Please go to the feature settings to complete the setup.',
+			'classifai'
+		) }
+	</Notice>
+);
 
 /**
  * ServiceSettings component to render the feature navigation tabs and the feature settings.
@@ -129,6 +151,9 @@ export const ServiceSettings = () => {
 											?.enable_description,
 									} }
 								/>
+								{ !! isProviderConfigurationNeeded(
+									getFeatureSettings( '', feature )
+								) && <ConfigureProviderNotice /> }
 							</FlexBlock>
 							<FlexItem>
 								<NavLink to={ feature } key={ feature }>

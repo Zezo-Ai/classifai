@@ -191,3 +191,17 @@ export const isFeatureActive = ( feature ) => {
 
 	return isEnabled && authenticated;
 };
+
+/**
+ * Returns true if a provider configuration is needed.
+ *
+ * @param {Object} feature The feature object.
+ * @return {boolean} True if the feature is enabled and provider configuration is needed, false otherwise.
+ */
+export const isProviderConfigurationNeeded = ( feature ) => {
+	const isEnabled = '1' === feature.status;
+	const provider = feature?.provider;
+	const authenticated = feature[ provider ].authenticated;
+
+	return isEnabled && ! authenticated;
+};
