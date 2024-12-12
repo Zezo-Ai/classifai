@@ -51,6 +51,23 @@ export const OpenAIChatGPTSettings = ( { isConfigured = false } ) => {
 			{ __( 'in order to get your API key.', 'classifai' ) }
 		</>
 	);
+	const promptExamples = (
+		<>
+			{ __( 'Add a custom prompt, if desired. ', 'classifai' ) }
+			{ __( 'See our ', 'classifai' ) }
+			<a
+				href="https://10up.github.io/classifai/tutorial-prompt-examples.html"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				{ __( 'documentation', 'classifai' ) }
+			</a>
+			{ __(
+				' for some example prompts you can try that have been tested for specific use cases.',
+				'classifai'
+			) }
+		</>
+	);
 
 	return (
 		<>
@@ -93,10 +110,7 @@ export const OpenAIChatGPTSettings = ( { isConfigured = false } ) => {
 			) && (
 				<SettingsRow
 					label={ __( 'Prompt', 'classifai' ) }
-					description={ __(
-						'Add a custom prompt, if desired.',
-						'classifai'
-					) }
+					description={ promptExamples }
 				>
 					<PromptRepeater
 						prompts={ providerSettings.prompt }
