@@ -177,64 +177,66 @@ class TermCleanup extends Feature {
 			}
 			?>
 
-			<div class="classifai-wrap wrap classifai classifai-term-cleanup">
-				<h2><?php esc_html_e( 'Term Cleanup', 'classifai' ); ?></h2>
-				<h2 class="nav-tab-wrapper">
-					<?php
-					foreach ( $taxonomies as $name ) {
-						// If we don't have an active taxonomy, set the first one as active.
-						if ( ! $active_tax ) {
-							$active_tax = $name;
+			<div class="classifai-settings-wrapper">
+				<div class="classifai-wrap wrap classifai classifai-term-cleanup">
+					<h2><?php esc_html_e( 'Term Cleanup', 'classifai' ); ?></h2>
+					<h2 class="nav-tab-wrapper">
+						<?php
+						foreach ( $taxonomies as $name ) {
+							// If we don't have an active taxonomy, set the first one as active.
+							if ( ! $active_tax ) {
+								$active_tax = $name;
+							}
+
+							$label  = $all_taxonomies[ $name ];
+							$active = $active_tax === $name ? 'nav-tab-active' : '';
+							$url    = add_query_arg( 'tax', $name, $this->setting_page_url );
+							?>
+
+							<a href="<?php echo esc_url( $url ); ?>" class="nav-tab <?php echo esc_attr( $active ); ?>">
+								<?php echo esc_html( $label ); ?>
+							</a>
+
+							<?php
 						}
-
-						$label  = $all_taxonomies[ $name ];
-						$active = $active_tax === $name ? 'nav-tab-active' : '';
-						$url    = add_query_arg( 'tax', $name, $this->setting_page_url );
 						?>
-
-						<a href="<?php echo esc_url( $url ); ?>" class="nav-tab <?php echo esc_attr( $active ); ?>">
-							<?php echo esc_html( $label ); ?>
-						</a>
-
+					</h2>
+					<div class="classifai-term-cleanup-wrapper classifai-wrapper">
+						<div class="classifai-term-cleanup-content-wrapper">
+							<h3 class="screen-reader-text"><?php echo esc_html( $all_taxonomies[ $active_tax ] ); ?></h3>
 						<?php
-					}
-					?>
-				</h2>
-				<div class="classifai-term-cleanup-wrapper classifai-wrapper">
-					<div class="classifai-term-cleanup-content-wrapper">
-						<h3 class="screen-reader-text"><?php echo esc_html( $all_taxonomies[ $active_tax ] ); ?></h3>
-					<?php
-					if ( $this->background_process && $this->background_process->in_progress() ) {
-						$this->render_background_processing_status( $active_tax );
-					} else {
-						$plural_label   = strtolower( $this->get_taxonomy_label( $active_tax, true ) );
-						$singular_label = strtolower( $this->get_taxonomy_label( $active_tax, false ) );
+						if ( $this->background_process && $this->background_process->in_progress() ) {
+							$this->render_background_processing_status( $active_tax );
+						} else {
+							$plural_label   = strtolower( $this->get_taxonomy_label( $active_tax, true ) );
+							$singular_label = strtolower( $this->get_taxonomy_label( $active_tax, false ) );
 
-						// translators: %s: Taxonomy name.
-						$submit_label = sprintf( __( 'Find similar %s', 'classifai' ), esc_attr( $plural_label ) );
-						?>
-						<p>
-							<?php
 							// translators: %s: Taxonomy name.
-							printf( esc_html__( 'Identify potential %s duplicates to merge together', 'classifai' ), esc_html( $singular_label ) );
+							$submit_label = sprintf( __( 'Find similar %s', 'classifai' ), esc_attr( $plural_label ) );
 							?>
-						</p>
-						<div class="submit-wrapper">
-							<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
-								<input type="hidden" name="action" value="classifai_init_term_cleanup" />
-								<input type="hidden" name="classifai_term_cleanup_taxonomy" value="<?php echo esc_attr( $active_tax ); ?>" />
-								<?php wp_nonce_field( 'classifai_term_cleanup', 'classifai_term_cleanup_nonce' ); ?>
-								<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php echo esc_attr( $submit_label ); ?>">
-							</form>
-						</div>
-						<?php
-					}
-					?>
-						<div>
-							<br/>
+							<p>
+								<?php
+								// translators: %s: Taxonomy name.
+								printf( esc_html__( 'Identify potential %s duplicates to merge together', 'classifai' ), esc_html( $singular_label ) );
+								?>
+							</p>
+							<div class="submit-wrapper">
+								<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+									<input type="hidden" name="action" value="classifai_init_term_cleanup" />
+									<input type="hidden" name="classifai_term_cleanup_taxonomy" value="<?php echo esc_attr( $active_tax ); ?>" />
+									<?php wp_nonce_field( 'classifai_term_cleanup', 'classifai_term_cleanup_nonce' ); ?>
+									<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php echo esc_attr( $submit_label ); ?>">
+								</form>
+							</div>
 							<?php
-							$this->render_similar_terms( $active_tax );
-							?>
+						}
+						?>
+							<div>
+								<br/>
+								<?php
+								$this->render_similar_terms( $active_tax );
+								?>
+							</div>
 						</div>
 					</div>
 				</div>
