@@ -117,8 +117,8 @@ class Notifications {
 	/**
 	 * Display a dismissable admin notice when a threshold may need updating.
 	 *
-	 * We used to recommend thresholds between 70-75% but in the latest
-	 * version of the AI Vision API, seems 55% is a better threshold.
+	 * We used to recommend thresholds between 50-55% but in the latest
+	 * version of the AI Vision API, seems 70% is a better threshold.
 	 */
 	public function thresholds_update_notice() {
 		$features = [
@@ -144,7 +144,7 @@ class Notifications {
 			switch ( $feature_instance::ID ) {
 				case DescriptiveTextGenerator::ID:
 					$key     = 'descriptive_confidence_threshold';
-					$message = __( 'The previous recommended threshold for descriptive text generation was 75% but we find better results now at around 55%.', 'classifai' );
+					$message = __( 'The previous recommended threshold for descriptive text generation was 55% but we find better results now at around 70%.', 'classifai' );
 					break;
 			}
 
@@ -153,8 +153,8 @@ class Notifications {
 				continue;
 			}
 
-			// Don't show the notice if the threshold is already at 55% or lower.
-			if ( $key && isset( $settings[ $key ] ) && $settings[ $key ] <= 55 ) {
+			// Don't show the notice if the threshold is already at 70% or higher.
+			if ( $key && isset( $settings[ $key ] ) && $settings[ $key ] >= 70 ) {
 				continue;
 			}
 			?>
@@ -165,9 +165,9 @@ class Notifications {
 					echo wp_kses_post(
 						sprintf(
 							// translators: %1$s: Feature specific message; %2$s: URL to Feature settings.
-							__( 'ClassifAI has updated to the v3.2 of the Azure AI Vision API. %1$s <a href="%2$s">Click here to adjust those settings</a>.', 'classifai' ),
+							__( 'ClassifAI has updated to the v4.0 of the Azure AI Vision API. %1$s <a href="%2$s">Click here to adjust those settings</a>.', 'classifai' ),
 							esc_html( $message ),
-							esc_url( admin_url( "tools.php?page=classifai&tab=image_processing&feature=$name" ) )
+							esc_url( admin_url( "tools.php?page=classifai#/image_processing/$name" ) )
 						)
 					);
 					?>
