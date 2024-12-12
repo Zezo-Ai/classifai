@@ -13,7 +13,8 @@ import { __ } from '@wordpress/i18n';
  */
 import { SettingsRow } from '../settings-row';
 import { STORE_NAME } from '../../data/store';
-import { useTaxonomies } from '../../utils/utils';
+import { useFeatureContext } from '../feature-settings/context';
+import { getFeature } from '../../utils/utils';
 
 /**
  * Component for Term Cleanup feature settings.
@@ -24,20 +25,19 @@ import { useTaxonomies } from '../../utils/utils';
  * @return {React.ReactElement} TermCleanupSettings component.
  */
 export const TermCleanupSettings = () => {
+	const { featureName } = useFeatureContext();
 	const featureSettings = useSelect( ( select ) =>
 		select( STORE_NAME ).getFeatureSettings()
 	);
 	const { setFeatureSettings } = useDispatch( STORE_NAME );
-	const { taxonomies = [] } = useTaxonomies();
-	const options =
-		taxonomies
-			?.filter( ( taxonomy ) => {
-				return taxonomy.visibility?.publicly_queryable;
-			} )
-			?.map( ( taxonomy ) => ( {
-				label: taxonomy.name,
-				value: taxonomy.slug,
-			} ) ) || [];
+	const { taxonomies = {} } = getFeature( featureName );
+
+	const options = Object.keys( taxonomies ).map( ( slug ) => {
+		return {
+			value: slug,
+			label: taxonomies[ slug ],
+		};
+	} );
 	const features = {};
 
 	options?.forEach( ( taxonomy ) => {
@@ -84,12 +84,12 @@ export const TermCleanupSettings = () => {
 				<CheckboxControl
 					id="use_ep"
 					key="use_ep"
-					checked={ featureSettings?.use_ep }
+					checked={ featureSettings?.use_ep === '1' }
 					disabled={ ! window.classifAISettings?.isEPinstalled }
 					label={ __( 'Use ElasticPress', 'classifai' ) }
 					onChange={ ( value ) => {
 						setFeatureSettings( {
-							use_ep: value,
+							use_ep: value ? '1' : '0',
 						} );
 					} }
 				/>
