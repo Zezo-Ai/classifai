@@ -7,5 +7,8 @@
     },
     "migration-guide-v2-to-v3": {
         "title": "Migration guide (version 2 to version 3)"
+    },
+    "prompt-examples": {
+        "title": "Prompt examples"
     }
 }
