@@ -24,7 +24,7 @@ import { store as noticesStore } from '@wordpress/notices';
  */
 import { SettingsRow } from '../settings-row';
 import { STORE_NAME } from '../../data/store';
-import { isFeatureActive, usePostTypes } from '../../utils/utils';
+import { isFeatureActive } from '../../utils/utils';
 import { NLUFeatureSettings } from './nlu-feature';
 import {
 	AzureOpenAIEmbeddingsResults,
@@ -132,8 +132,7 @@ export const ClassificationSettings = () => {
 	);
 	const isConfigured = isFeatureActive( featureSettings );
 	const { setFeatureSettings } = useDispatch( STORE_NAME );
-	const { postTypesSelectOptions } = usePostTypes();
-	const { postStatuses } = window.classifAISettings;
+	const { postTypes, postStatuses } = window.classifAISettings;
 	const { createSuccessNotice } = useDispatch( noticesStore );
 
 	const previewerContextData = {
@@ -272,8 +271,7 @@ export const ClassificationSettings = () => {
 				) }
 				className="settings-allowed-post-types"
 			>
-				{ postTypesSelectOptions.map( ( option ) => {
-					const { value: key, label } = option;
+				{ Object.keys( postTypes || {} ).map( ( key ) => {
 					return (
 						<CheckboxControl
 							id={ key }
@@ -281,7 +279,7 @@ export const ClassificationSettings = () => {
 							checked={
 								featureSettings.post_types?.[ key ] === key
 							}
-							label={ label }
+							label={ postTypes?.[ key ] }
 							onChange={ ( value ) => {
 								setFeatureSettings( {
 									post_types: {
