@@ -200,7 +200,7 @@ class TermCleanup extends Feature {
 					}
 					?>
 				</h2>
-				<div class="classifai-term-cleanup-wrapper">
+				<div class="classifai-term-cleanup-wrapper classifai-wrapper">
 					<div class="classifai-term-cleanup-content-wrapper">
 						<h3 class="screen-reader-text"><?php echo esc_html( $all_taxonomies[ $active_tax ] ); ?></h3>
 					<?php
