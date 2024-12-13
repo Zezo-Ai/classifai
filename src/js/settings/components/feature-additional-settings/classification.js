@@ -45,9 +45,9 @@ const ClassificationMethodSettings = () => {
 	);
 	const { setFeatureSettings } = useDispatch( STORE_NAME );
 
-	const classifaicationMethodOptions = [];
+	const classificationMethodOptions = [];
 	if ( featureSettings.provider === 'ibm_watson_nlu' ) {
-		classifaicationMethodOptions.push( {
+		classificationMethodOptions.push( {
 			label: __(
 				'Recommend terms even if they do not exist on the site',
 				'classifai'
@@ -56,7 +56,7 @@ const ClassificationMethodSettings = () => {
 		} );
 	}
 
-	classifaicationMethodOptions.push( {
+	classificationMethodOptions.push( {
 		label: __(
 			'Only recommend terms that already exist on the site',
 			'classifai'
@@ -93,7 +93,7 @@ const ClassificationMethodSettings = () => {
 						classification_method: value,
 					} );
 				} }
-				options={ classifaicationMethodOptions }
+				options={ classificationMethodOptions }
 				selected={ featureSettings.classification_method }
 			/>
 		</SettingsRow>
