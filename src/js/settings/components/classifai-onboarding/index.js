@@ -46,13 +46,13 @@ export const ClassifAIOnboarding = () => {
 					</li>
 					<li>
 						<strong>
-							{ __( 'Get an AI platform account.', 'classifai' ) }
+							{ __( 'Get an AI provider account.', 'classifai' ) }
 						</strong>
 					</li>
 					<li>
 						<strong>
 							{ __(
-								'Connect your AI platform to ClassifAI. ',
+								'Connect your AI provider to ClassifAI. ',
 								'classifai'
 							) }
 						</strong>

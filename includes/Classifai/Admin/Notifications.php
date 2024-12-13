@@ -103,7 +103,7 @@ class Notifications {
 				</div>
 				<div class="classifai-activation-message">
 					<p><?php esc_html_e( 'Thanks for downloading ClassifAI.', 'classifai' ); ?></p>
-					<p><?php esc_html_e( 'Choose your features, connect your AI platform accounts, and you’re ready to go.', 'classifai' ); ?></p>
+					<p><?php esc_html_e( 'Choose your features, connect your AI provider accounts, and you’re ready to go.', 'classifai' ); ?></p>
 				</div>
 				<a class="components-button is-primary" href="<?php echo esc_url( $setup_url ); ?>">
 					<?php esc_html_e( 'Get started', 'classifai' ); ?>
