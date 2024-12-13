@@ -105,7 +105,7 @@ export const NLUFeatureSettings = () => {
 							id={ `${ feature }-enabled` }
 							label={ __( 'Enable', 'classifai' ) }
 							value={ feature }
-							checked={ featureSettings[ feature ] }
+							checked={ !! featureSettings[ feature ] }
 							onChange={ ( value ) => {
 								setFeatureSettings( {
 									[ feature ]: value ? 1 : 0,

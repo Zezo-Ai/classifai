@@ -109,7 +109,7 @@ export const TermCleanupSettings = () => {
 								label={ __( 'Enable', 'classifai' ) }
 								value={ feature }
 								checked={
-									featureSettings?.taxonomies?.[ feature ]
+									!! featureSettings?.taxonomies?.[ feature ]
 								}
 								onChange={ ( value ) => {
 									setFeatureSettings( {
