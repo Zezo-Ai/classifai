@@ -42,7 +42,7 @@ const ConfigureProviderNotice = () => (
 	>
 		<Icon icon="warning" />{ ' ' }
 		{ __(
-			'The feature is enabled but needs provider configuration. Please go to the feature settings to complete the setup.',
+			'This Feature is enabled but needs a Provider configured. Please click the Settings button to complete the setup.',
 			'classifai'
 		) }
 	</Notice>
