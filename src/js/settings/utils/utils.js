@@ -187,7 +187,7 @@ export const useUserPermissionsPreferences = () => {
 export const isFeatureActive = ( feature ) => {
 	const isEnabled = '1' === feature.status;
 	const provider = feature?.provider;
-	const authenticated = feature[ provider ].authenticated;
+	const authenticated = feature[ provider ]?.authenticated;
 
 	return isEnabled && authenticated;
 };
@@ -201,7 +201,7 @@ export const isFeatureActive = ( feature ) => {
 export const isProviderConfigurationNeeded = ( feature ) => {
 	const isEnabled = '1' === feature.status;
 	const provider = feature?.provider;
-	const authenticated = feature[ provider ].authenticated;
+	const authenticated = feature[ provider ]?.authenticated;
 
 	return isEnabled && ! authenticated;
 };
