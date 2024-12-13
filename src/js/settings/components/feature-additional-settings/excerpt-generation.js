@@ -28,7 +28,7 @@ export const ExcerptGenerationSettings = () => {
 	);
 	const { excerptPostTypes } = window.classifAISettings;
 	const { setFeatureSettings } = useDispatch( STORE_NAME );
-	const setPromts = ( prompts ) => {
+	const setPrompts = ( prompts ) => {
 		setFeatureSettings( {
 			generate_excerpt_prompt: prompts,
 		} );
@@ -45,7 +45,7 @@ export const ExcerptGenerationSettings = () => {
 			>
 				<PromptRepeater
 					prompts={ featureSettings.generate_excerpt_prompt }
-					setPromts={ setPromts }
+					setPrompts={ setPrompts }
 				/>
 			</SettingsRow>
 			<SettingsRow
