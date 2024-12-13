@@ -168,6 +168,7 @@ export const ProviderSettings = () => {
 							}
 							value={ provider }
 							options={ providers }
+							__nextHasNoMarginBottom
 						/>
 					</SettingsRow>
 				) }

@@ -111,6 +111,7 @@ export const NLUFeatureSettings = () => {
 									[ feature ]: value ? 1 : 0,
 								} );
 							} }
+							__nextHasNoMarginBottom
 						/>
 						<InputControl
 							id={ `${ feature }-threshold` }
@@ -150,6 +151,7 @@ export const NLUFeatureSettings = () => {
 										[ `${ feature }_taxonomy` ]: value,
 									} );
 								} }
+								__nextHasNoMarginBottom
 							/>
 						) }
 					</SettingsRow>

@@ -92,6 +92,7 @@ export const TermCleanupSettings = () => {
 							use_ep: value ? '1' : '0',
 						} );
 					} }
+					__nextHasNoMarginBottom
 				/>
 			</SettingsRow>
 			<>
@@ -118,6 +119,7 @@ export const TermCleanupSettings = () => {
 										},
 									} );
 								} }
+								__nextHasNoMarginBottom
 							/>
 							<InputControl
 								id={ `${ feature }-threshold` }

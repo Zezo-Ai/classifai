@@ -46,6 +46,7 @@ export const ImageTagGeneratorSettings = () => {
 				} }
 				value={ featureSettings.tag_taxonomy || 'classifai-image-tags' }
 				options={ options }
+				__nextHasNoMarginBottom
 			/>
 		</SettingsRow>
 	);

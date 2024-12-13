@@ -98,7 +98,7 @@ export const ServiceSettings = () => {
 	};
 
 	const statuses = Object.keys( settings )
-		.map( ( key ) => settings[ key ].status )
+		.map( ( key ) => settings[ key ]?.status )
 		.join( '' );
 
 	useEffect( () => {
@@ -138,6 +138,7 @@ export const ServiceSettings = () => {
 													feature
 												)
 										}
+										__nextHasNoMarginBottom
 									/>
 								</Flex>
 							</FlexItem>
