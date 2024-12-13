@@ -8,14 +8,13 @@ import {
 	HashRouter,
 	useParams,
 	NavLink,
-	useNavigate,
 } from 'react-router-dom';
 
 /**
  * WordPress dependencies
  */
 import { useDispatch } from '@wordpress/data';
-import { SlotFillProvider, Button, Icon } from '@wordpress/components';
+import { SlotFillProvider } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 import { useEffect } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
@@ -45,7 +44,6 @@ const { services, features } = window.classifAISettings;
 const FeatureSettingsWrapper = () => {
 	const { service, feature } = useParams();
 	const serviceFeatures = Object.keys( features[ service ] || {} );
-	const navigate = useNavigate();
 
 	if ( ! serviceFeatures.includes( feature ) ) {
 		return <Navigate to={ serviceFeatures[ 0 ] } replace />;
@@ -53,13 +51,6 @@ const FeatureSettingsWrapper = () => {
 
 	return (
 		<FeatureContext.Provider value={ { featureName: feature } }>
-			<Button
-				icon={ <Icon icon="arrow-left-alt2" /> }
-				iconSize={ 16 }
-				onClick={ () => navigate( -1 ) }
-			>
-				{ __( 'Back to dashboard', 'classifai' ) }
-			</Button>
 			<FeatureSettings />
 		</FeatureContext.Provider>
 	);
@@ -165,6 +156,14 @@ export const ClassifAISettings = () => {
 
 	// Render admin notices after the header.
 	useEffect( () => {
+		const isWelcomePage =
+			document.location?.hash?.includes( 'classifai_setup' );
+
+		// Ignore showing notices on the welcome page.
+		if ( isWelcomePage ) {
+			return;
+		}
+
 		const notices = document.querySelectorAll(
 			'div.updated, div.error, div.notice'
 		);

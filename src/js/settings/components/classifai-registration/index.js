@@ -8,6 +8,8 @@ import {
 	Button,
 	Slot,
 	Notice,
+	Flex,
+	FlexItem,
 	__experimentalInputControl as InputControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
 } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
@@ -221,16 +223,19 @@ export const SaveSettingsButton = ( {
 	};
 
 	return (
-		<Button
-			className="save-settings-button"
-			variant="primary"
-			onClick={ saveSettings }
-			isBusy={ isSaving }
-		>
-			{ isSaving
-				? __( 'Saving…', 'classifai' )
-				: __( 'Save Settings', 'classifai' ) }
-		</Button>
+		<Flex justify="end" expanded={ false }>
+			<FlexItem>
+				<Button
+					variant="primary"
+					onClick={ saveSettings }
+					isBusy={ isSaving }
+				>
+					{ isSaving
+						? __( 'Saving…', 'classifai' )
+						: __( 'Save Settings', 'classifai' ) }
+				</Button>
+			</FlexItem>
+		</Flex>
 	);
 };
 

@@ -1,8 +1,13 @@
 /**
+ * External dependencies
+ */
+import { useNavigate } from 'react-router-dom';
+
+/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Button, Slot } from '@wordpress/components';
+import { Button, Slot, Flex, FlexItem, Icon } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 import apiFetch from '@wordpress/api-fetch';
@@ -40,6 +45,7 @@ export const SaveSettingsButton = ( {
 	const settings = useSelect( ( select ) =>
 		select( STORE_NAME ).getSettings()
 	);
+	const navigate = useNavigate();
 
 	/**
 	 * Save settings for a feature.
@@ -95,14 +101,29 @@ export const SaveSettingsButton = ( {
 	};
 
 	return (
-		<Button
-			className="save-settings-button"
-			variant="primary"
-			onClick={ saveSettings }
-			isBusy={ isSaving }
-		>
-			{ isSaving ? __( 'Saving…', 'classifai' ) : label }
-		</Button>
+		<Flex justify="end" expanded={ false }>
+			<FlexItem>
+				<Button
+					icon={ <Icon icon="arrow-left-alt2" /> }
+					iconSize={ 16 }
+					onClick={ () => navigate( -1 ) }
+					className="classifai-back-button"
+					variant="secondary"
+				>
+					{ __( 'Back to dashboard', 'classifai' ) }
+				</Button>
+			</FlexItem>
+
+			<FlexItem>
+				<Button
+					variant="primary"
+					onClick={ saveSettings }
+					isBusy={ isSaving }
+				>
+					{ isSaving ? __( 'Saving…', 'classifai' ) : label }
+				</Button>
+			</FlexItem>
+		</Flex>
 	);
 };
 

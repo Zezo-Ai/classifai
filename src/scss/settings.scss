@@ -65,6 +65,7 @@
 
 		&.personalizer-deprecation-notice,
 		&.is-info {
+			margin-top: 16px;
 			margin-bottom: 16px;
 		}
 	}
@@ -74,9 +75,12 @@
 		flex-direction: column;
 		gap: 8px;
 		margin-block-end: 16px;
+		margin-top: 16px;
 	}
 
 	.settings-panel {
+		margin-top: 16px;
+
 		.settings-row {
 			display: flex;
 			justify-content: flex-start;
@@ -94,13 +98,13 @@
 			align-items: center;
 			font-weight: bold;
 			flex-shrink: 0;
-			flex: 30%;
+			flex: 20%;
 			padding: 12px 0px;
 		}
 
 		.settings-control {
 			align-items: center;
-			flex: 70%;
+			flex: 80%;
 			padding: 12px 10px;
 		}
 
@@ -121,6 +125,9 @@
 			margin-bottom: 8px;
 		}
 
+		.classifai-panel-header-close {
+			margin-right: -10px;
+		}
 	}
 
 	.save-settings-button{
@@ -296,7 +303,6 @@
 			position: relative;
 			display: flex;
 			flex-direction:column;
-			max-width: 600px;
 
 			&:first-child {
 				> input,
@@ -420,6 +426,14 @@
 
 	.classifai-configure-provider-notice {
 		margin-top: 0.5rem;
+	}
+
+	.classifai-settings-footer {
+		margin: 16px 0px;
+	}
+
+	.classifai-admin-notices {
+		margin-right: 0px;
 	}
 }
 
@@ -602,7 +616,7 @@
 }
 
 .classifai-settings-dashboard {
-	margin-top: 36px;
+	margin-top: 16px;
 }
 
 .classifai-feature-status {
