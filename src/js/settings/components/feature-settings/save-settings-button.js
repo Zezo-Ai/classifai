@@ -119,6 +119,7 @@ export const SaveSettingsButton = ( {
 					variant="primary"
 					onClick={ saveSettings }
 					isBusy={ isSaving }
+					className="save-settings-button"
 				>
 					{ isSaving ? __( 'Saving…', 'classifai' ) : label }
 				</Button>
