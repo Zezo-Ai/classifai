@@ -17,6 +17,7 @@ describe( 'Image processing Tests', () => {
 
 		imageProcessingFeatures.forEach( ( feature ) => {
 			cy.visitFeatureSettings( `image_processing/${ feature }` );
+			cy.wait( 100 );
 			cy.enableFeature();
 			cy.selectProvider( 'ms_computer_vision' );
 			cy.get( '#ms_computer_vision_endpoint_url' )
