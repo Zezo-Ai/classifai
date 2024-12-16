@@ -9,6 +9,7 @@ use Classifai\Features\ContentResizing;
 use Classifai\Features\ExcerptGeneration;
 use Classifai\Features\TitleGeneration;
 use Classifai\Providers\Provider;
+use Classifai\Providers\OpenAI\Tokenizer;
 use Classifai\Normalizer;
 use WP_Error;
 
@@ -22,6 +23,13 @@ class ChromeAI extends Provider {
 	 * @var string
 	 */
 	const ID = 'chrome_ai';
+
+	/**
+	 * Maximum number of tokens our model supports
+	 *
+	 * @var int
+	 */
+	protected $max_tokens = 6144;
 
 	/**
 	 * ChromeAI constructor.
@@ -226,7 +234,7 @@ class ChromeAI extends Provider {
 			'classifai_chrome_ai_title_request_body',
 			[
 				'prompt'  => 'You will be provided with content delimited by triple quotes. ' . $prompt,
-				'content' => $this->get_content( $post_id, 0, false, $args['content'] ),
+				'content' => $this->get_content( $post_id, 15, false, $args['content'] ),
 				'func'    => static::ID,
 			],
 			$post_id
@@ -295,10 +303,7 @@ class ChromeAI extends Provider {
 	}
 
 	/**
-	 * Get our content.
-	 *
-	 * We don't trim content here as we don't know for sure which model
-	 * someone is using.
+	 * Get our content, trimming if needed.
 	 *
 	 * @param int    $post_id Post ID to get content from.
 	 * @param int    $return_length Word length of returned content.
@@ -307,7 +312,23 @@ class ChromeAI extends Provider {
 	 * @return string
 	 */
 	public function get_content( int $post_id = 0, int $return_length = 0, bool $use_title = true, string $post_content = '' ): string {
+		$tokenizer  = new Tokenizer( $this->max_tokens );
 		$normalizer = new Normalizer();
+
+		/**
+		 * We first determine how many tokens, roughly, our returned content will require.
+		 * This is determined by the number of words we expect to be returned and how
+		 * many tokens are in an average word.
+		 */
+		$return_tokens = $tokenizer->tokens_in_words( $return_length );
+
+		/**
+		 * We then subtract those tokens from the max number of tokens ChromeAI allows
+		 * in a single request, as well as subtracting out the number of tokens in our
+		 * prompt (~50). ChromeAI counts both the tokens in the request and in
+		 * the response towards the max.
+		 */
+		$max_content_tokens = $this->max_tokens - $return_tokens - 50;
 
 		if ( empty( $post_content ) ) {
 			$post         = get_post( $post_id );
@@ -316,11 +337,17 @@ class ChromeAI extends Provider {
 
 		$post_content = preg_replace( '#\[.+\](.+)\[/.+\]#', '$1', $post_content );
 
-		// Add the title to the content, if needed, and normalize things.
+		// Then trim our content, if needed, to stay under the max.
 		if ( $use_title ) {
-			$content = $normalizer->normalize( $post_id, $post_content );
+			$content = $tokenizer->trim_content(
+				$normalizer->normalize( $post_id, $post_content ),
+				(int) $max_content_tokens
+			);
 		} else {
-			$content = $normalizer->normalize_content( $post_content, '', $post_id );
+			$content = $tokenizer->trim_content(
+				$normalizer->normalize_content( $post_content, '', $post_id ),
+				(int) $max_content_tokens
+			);
 		}
 
 		/**
