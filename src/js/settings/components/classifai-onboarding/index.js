@@ -19,7 +19,7 @@ export const ClassifAIOnboarding = () => {
 			<div className="classifai-onboarding__welcome-note">
 				<p>
 					{ __(
-						'Our plug-in helps thousands of people across the world to speed up their workflow, using the power of AI.',
+						'ClassifAI helps thousands of people across the world speed up their publishing workflows, using the power of AI.',
 						'classifai'
 					) }
 				</p>
@@ -33,7 +33,7 @@ export const ClassifAIOnboarding = () => {
 					<li>
 						<strong>
 							{ __(
-								'Switch on features that you want to use. ',
+								'Switch on the Feature you want to use. ',
 								'classifai'
 							) }
 						</strong>
@@ -46,13 +46,16 @@ export const ClassifAIOnboarding = () => {
 					</li>
 					<li>
 						<strong>
-							{ __( 'Get an AI provider account.', 'classifai' ) }
+							{ __(
+								'Choose which AI Provider you want to use for that Feature. Ensure you have an account with that Provider.',
+								'classifai'
+							) }
 						</strong>
 					</li>
 					<li>
 						<strong>
 							{ __(
-								'Connect your AI provider to ClassifAI. ',
+								'Connect that AI provider to the Feature you enabled. ',
 								'classifai'
 							) }
 						</strong>
@@ -61,14 +64,17 @@ export const ClassifAIOnboarding = () => {
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							{ __( 'Find out how to get set up', 'classifai' ) }
+							{ __(
+								'More details on configuring settings',
+								'classifai'
+							) }
 						</a>
 					</li>
 				</ol>
 
 				<p>
 					{ __(
-						'Once that’s done, you can start using the plug-in and see for yourself how much time you save.',
+						'Once done, you can start using ClassifAI and see for yourself how much time you save.',
 						'classifai'
 					) }
 				</p>
@@ -84,12 +90,6 @@ export const ClassifAIOnboarding = () => {
 					>
 						{ __( 'browse our help topics.', 'classifai' ) }
 					</a>
-				</p>
-				<p>
-					{ __(
-						'Thanks for choosing ClassifAI from WordPress experts, 10up.',
-						'classifai'
-					) }
 				</p>
 			</div>
 		</div>
