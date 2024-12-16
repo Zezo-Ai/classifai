@@ -94,6 +94,13 @@ export const chromeAITextGeneration = async ( prompt = '', content = '' ) => {
 	let result = '';
 
 	if ( ! window.ai ) {
+		// eslint-disable-next-line no-alert
+		window.alert(
+			__(
+				'Your browser does not support Chrome AI or the language model is not available. Please see setup instructions at https://github.com/10up/classifai/pull/819',
+				'classifai'
+			)
+		);
 		return result;
 	}
 

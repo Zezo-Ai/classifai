@@ -84,6 +84,29 @@ const ProviderFields = ( { provider, isConfigured } ) => {
 		case 'openai_text_to_speech':
 			return <OpenAITextToSpeachSettings isConfigured={ isConfigured } />;
 
+		case 'chrome_ai':
+			const ChromeAISetup = () => (
+				<>
+					{ __(
+						'To properly use Chrome AI, follow these ',
+						'classifai'
+					) }
+					<a
+						title={ __( 'Chrome AI setup', 'classifai' ) }
+						href="https://github.com/10up/classifai/pull/819"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{ __( 'instructions', 'classifai' ) }
+					</a>
+				</>
+			);
+			return (
+				<div style={ { marginTop: '-20px' } }>
+					<SettingsRow description={ <ChromeAISetup /> } />
+				</div>
+			);
+
 		default:
 			return null;
 	}
@@ -119,6 +142,19 @@ export const ProviderSettings = () => {
 			};
 		}
 	);
+
+	// Remove Chrome AI Provider from the list of providers if not supported.
+	if (
+		( 'feature_title_generation' === featureName ||
+			'feature_excerpt_generation' === featureName ||
+			'feature_content_resizing' === featureName ) &&
+		! window.ai
+	) {
+		providers.splice(
+			providers.findIndex( ( p ) => p.value === 'chrome_ai' ),
+			1
+		);
+	}
 
 	const configured =
 		isProviderConfigured( featureSettings ) &&
