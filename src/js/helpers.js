@@ -1,5 +1,5 @@
 /* global lodash */
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 const { get } = lodash;
 
 /**
@@ -112,7 +112,29 @@ export const chromeAITextGeneration = async ( prompt = '', content = '' ) => {
 				},
 			],
 		} );
-		result = await session.prompt( `"""${ content }"""` );
+		try {
+			result = await session.prompt( `"""${ content }"""` );
+		} catch ( e ) {
+			// eslint-disable-next-line no-alert
+			window.alert(
+				sprintf(
+					/* translators: %s: error message */
+					__(
+						'Error occured during AI text generation: %1$s. Please ensure you have followed the setup instructions at https://github.com/10up/classifai/pull/819',
+						'classifai'
+					),
+					e?.message
+				)
+			);
+		}
+	} else {
+		// eslint-disable-next-line no-alert
+		window.alert(
+			__(
+				'Your browser does not support Chrome AI or the language model is not available. Please see setup instructions at https://github.com/10up/classifai/pull/819',
+				'classifai'
+			)
+		);
 	}
 
 	return result;
