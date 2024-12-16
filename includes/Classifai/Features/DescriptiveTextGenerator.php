@@ -402,7 +402,7 @@ class DescriptiveTextGenerator extends Feature {
 		// Keep using the original prompt from the codebase to allow updates.
 		if ( $settings && ! empty( $settings[ ChatGPT::ID ]['prompt'] ) ) {
 			foreach ( $settings[ ChatGPT::ID ]['prompt'] as $key => $prompt ) {
-				if( 1 === intval( $prompt['original'] ) ) {
+				if ( 1 === intval( $prompt['original'] ) ) {
 					$settings[ ChatGPT::ID ]['prompt'][ $key ]['prompt'] = $this->prompt;
 					break;
 				}

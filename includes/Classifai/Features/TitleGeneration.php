@@ -356,7 +356,7 @@ class TitleGeneration extends Feature {
 		// Keep using the original prompt from the codebase to allow updates.
 		if ( $settings && ! empty( $settings['generate_title_prompt'] ) ) {
 			foreach ( $settings['generate_title_prompt'] as $key => $prompt ) {
-				if( 1 === intval( $prompt['original'] ) ) {
+				if ( 1 === intval( $prompt['original'] ) ) {
 					$settings['generate_title_prompt'][ $key ]['prompt'] = $this->prompt;
 					break;
 				}
