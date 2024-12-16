@@ -10,5 +10,8 @@
     },
     "prompt-examples": {
         "title": "Prompt examples"
+    },
+    "chrome-built-in-ai": {
+        "title": "Chrome built-in AI"
     }
 }
