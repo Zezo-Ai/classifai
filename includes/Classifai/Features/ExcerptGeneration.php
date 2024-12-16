@@ -354,7 +354,7 @@ class ExcerptGeneration extends Feature {
 		$settings = parent::get_settings( $index );
 
 		// Keep using the original prompt from the codebase to allow updates.
-		if ( $settings && !empty( $settings['generate_excerpt_prompt'] ) ) {
+		if ( $settings && ! empty( $settings['generate_excerpt_prompt'] ) ) {
 			foreach ( $settings['generate_excerpt_prompt'] as $key => $prompt ) {
 				if ( 1 === intval( $prompt['original'] ) ) {
 					$settings['generate_excerpt_prompt'][ $key ]['prompt'] = $this->prompt;
