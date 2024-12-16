@@ -161,7 +161,7 @@ export const ServiceSettings = () => {
 									<Button
 										variant="secondary"
 										disabled={
-											'0' ===
+											'1' !==
 											getFeatureSettings(
 												'status',
 												feature
