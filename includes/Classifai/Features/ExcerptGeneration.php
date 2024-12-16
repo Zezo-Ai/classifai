@@ -46,7 +46,7 @@ class ExcerptGeneration extends Feature {
 			ChatGPT::ID   => __( 'OpenAI ChatGPT', 'classifai' ),
 			GeminiAPI::ID => __( 'Google AI (Gemini API)', 'classifai' ),
 			OpenAI::ID    => __( 'Azure OpenAI', 'classifai' ),
-			ChromeAI::ID  => __( 'Chrome AI', 'classifai' ), // TODO: only add this Provider if the browser supports AI.
+			ChromeAI::ID  => __( 'Chrome AI', 'classifai' ),
 		];
 	}
 

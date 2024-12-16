@@ -27,6 +27,7 @@ import { OpenAIDallESettings } from './openai-dalle';
 import { AmazonPollySettings } from './amazon-polly';
 import { AzureTextToSpeechSettings } from './azure-text-to-speech';
 import { OpenAITextToSpeachSettings } from './openai-text-to-speech';
+import { ChromeAISettings } from './chrome-ai';
 
 /**
  * Component for rendering provider setting fields based on the selected provider.
@@ -85,27 +86,7 @@ const ProviderFields = ( { provider, isConfigured } ) => {
 			return <OpenAITextToSpeachSettings isConfigured={ isConfigured } />;
 
 		case 'chrome_ai':
-			const ChromeAISetup = () => (
-				<>
-					{ __(
-						'To properly use Chrome AI, follow these ',
-						'classifai'
-					) }
-					<a
-						title={ __( 'Chrome AI setup', 'classifai' ) }
-						href="https://github.com/10up/classifai/pull/819"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						{ __( 'instructions', 'classifai' ) }
-					</a>
-				</>
-			);
-			return (
-				<div style={ { marginTop: '-20px' } }>
-					<SettingsRow description={ <ChromeAISetup /> } />
-				</div>
-			);
+			return <ChromeAISettings />;
 
 		default:
 			return null;
@@ -133,6 +114,11 @@ export const ProviderSettings = () => {
 		select( STORE_NAME ).getFeatureSettings()
 	);
 
+	// Remove the Chrome AI Provider from the list of providers if the browser AI is not available.
+	if ( feature?.providers?.chrome_ai && ! window.ai ) {
+		delete feature.providers.chrome_ai;
+	}
+
 	const providerLabel = feature.providers[ provider ] || '';
 	const providers = Object.keys( feature?.providers || {} ).map(
 		( value ) => {
@@ -142,19 +128,6 @@ export const ProviderSettings = () => {
 			};
 		}
 	);
-
-	// Remove Chrome AI Provider from the list of providers if not supported.
-	if (
-		( 'feature_title_generation' === featureName ||
-			'feature_excerpt_generation' === featureName ||
-			'feature_content_resizing' === featureName ) &&
-		! window.ai
-	) {
-		providers.splice(
-			providers.findIndex( ( p ) => p.value === 'chrome_ai' ),
-			1
-		);
-	}
 
 	const configured =
 		isProviderConfigured( featureSettings ) &&

@@ -92,15 +92,14 @@ export const browserAITextGeneration = async (
  */
 export const chromeAITextGeneration = async ( prompt = '', content = '' ) => {
 	let result = '';
+	const errorMessage = __(
+		'Your browser does not support Chrome AI or the language model is not available. Please see setup instructions at https://10up.github.io/classifai/tutorial-chrome-built-in-ai.html',
+		'classifai'
+	);
 
 	if ( ! window.ai ) {
 		// eslint-disable-next-line no-alert
-		window.alert(
-			__(
-				'Your browser does not support Chrome AI or the language model is not available. Please see setup instructions at https://github.com/10up/classifai/pull/819',
-				'classifai'
-			)
-		);
+		window.alert( errorMessage );
 		return result;
 	}
 
@@ -127,7 +126,7 @@ export const chromeAITextGeneration = async ( prompt = '', content = '' ) => {
 				sprintf(
 					/* translators: %s: error message */
 					__(
-						'Error occured during AI text generation: %1$s. Please ensure you have followed the setup instructions at https://github.com/10up/classifai/pull/819',
+						'Error occured during AI text generation: %1$s. Please ensure you have followed the setup instructions at https://10up.github.io/classifai/tutorial-chrome-built-in-ai.html',
 						'classifai'
 					),
 					e?.message
@@ -136,12 +135,7 @@ export const chromeAITextGeneration = async ( prompt = '', content = '' ) => {
 		}
 	} else {
 		// eslint-disable-next-line no-alert
-		window.alert(
-			__(
-				'Your browser does not support Chrome AI or the language model is not available. Please see setup instructions at https://github.com/10up/classifai/pull/819',
-				'classifai'
-			)
-		);
+		window.alert( errorMessage );
 	}
 
 	return result;
