@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { NavLink } from 'react-router-dom';
 import { Icon, Button, Flex, FlexItem } from '@wordpress/components';
 import { close } from '@wordpress/icons';
 
