@@ -121,6 +121,7 @@ export const PromptRepeater = ( props ) => {
 									} );
 								} }
 								className="classifai-prompt-text"
+								__nextHasNoMarginBottom
 							/>
 						</>
 					) }

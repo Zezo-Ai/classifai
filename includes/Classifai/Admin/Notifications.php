@@ -87,7 +87,7 @@ class Notifications {
 			return;
 		}
 
-		$setup_url = admin_url( 'tools.php?page=classifai#/classifai_setup' );
+		$setup_url = admin_url( 'tools.php?page=classifai#/language_processing?welcome_guide=1' );
 		if ( should_use_legacy_settings_panel() ) {
 			$setup_url = admin_url( 'admin.php?page=classifai_setup' );
 		}
@@ -101,11 +101,12 @@ class Notifications {
 				<div class="classifai-logo">
 					<img src="<?php echo esc_url( CLASSIFAI_PLUGIN_URL . 'assets/img/classifai.png' ); ?>" alt="<?php esc_attr_e( 'ClassifAI', 'classifai' ); ?>" />
 				</div>
-				<h3 class="classifai-activation-message">
-					<?php esc_html_e( 'Congratulations, the ClassifAI plugin is now activated.', 'classifai' ); ?>
-				</h3>
-				<a class="classifai-button" href="<?php echo esc_url( $setup_url ); ?>">
-					<?php esc_html_e( 'Start setup', 'classifai' ); ?>
+				<div class="classifai-activation-message">
+					<p><?php esc_html_e( 'Thanks for downloading ClassifAI.', 'classifai' ); ?></p>
+					<p><?php esc_html_e( 'Choose your Features, connect your AI Provider accounts, and you’re ready to go.', 'classifai' ); ?></p>
+				</div>
+				<a class="components-button is-primary" href="<?php echo esc_url( $setup_url ); ?>">
+					<?php esc_html_e( 'Get started', 'classifai' ); ?>
 				</a>
 			</div>
 		</div>

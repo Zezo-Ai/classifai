@@ -105,12 +105,13 @@ export const NLUFeatureSettings = () => {
 							id={ `${ feature }-enabled` }
 							label={ __( 'Enable', 'classifai' ) }
 							value={ feature }
-							checked={ featureSettings[ feature ] }
+							checked={ !! featureSettings[ feature ] }
 							onChange={ ( value ) => {
 								setFeatureSettings( {
 									[ feature ]: value ? 1 : 0,
 								} );
 							} }
+							__nextHasNoMarginBottom
 						/>
 						<InputControl
 							id={ `${ feature }-threshold` }
@@ -150,6 +151,7 @@ export const NLUFeatureSettings = () => {
 										[ `${ feature }_taxonomy` ]: value,
 									} );
 								} }
+								__nextHasNoMarginBottom
 							/>
 						) }
 					</SettingsRow>

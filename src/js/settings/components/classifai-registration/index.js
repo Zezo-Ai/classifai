@@ -1,9 +1,4 @@
 /**
- * External dependencies
- */
-import { NavLink } from 'react-router-dom';
-
-/**
  * WordPress dependencies
  */
 import {
@@ -13,6 +8,8 @@ import {
 	Button,
 	Slot,
 	Notice,
+	Flex,
+	FlexItem,
 	__experimentalInputControl as InputControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
 } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
@@ -226,16 +223,19 @@ export const SaveSettingsButton = ( {
 	};
 
 	return (
-		<Button
-			className="save-settings-button"
-			variant="primary"
-			onClick={ saveSettings }
-			isBusy={ isSaving }
-		>
-			{ isSaving
-				? __( 'Saving…', 'classifai' )
-				: __( 'Save Settings', 'classifai' ) }
-		</Button>
+		<Flex justify="end" expanded={ false }>
+			<FlexItem>
+				<Button
+					variant="primary"
+					onClick={ saveSettings }
+					isBusy={ isSaving }
+				>
+					{ isSaving
+						? __( 'Saving…', 'classifai' )
+						: __( 'Save Settings', 'classifai' ) }
+				</Button>
+			</FlexItem>
+		</Flex>
 	);
 };
 
@@ -248,15 +248,8 @@ export const SaveSettingsButton = ( {
  */
 export const ClassifAIRegistration = () => {
 	return (
-		<div className="service-settings-wrapper">
-			<div className="classifai-tabs" aria-orientation="vertical">
-				<NavLink className={ 'active-tab classifai-tabs-item' }>
-					{ __( 'ClassifAI Registration', 'classifai' ) }
-				</NavLink>
-			</div>
-			<div className="feature-settings-wrapper">
-				<ClassifAIRegistrationForm />
-			</div>
+		<div className="classifai-settings-dashboard">
+			<ClassifAIRegistrationForm />
 		</div>
 	);
 };

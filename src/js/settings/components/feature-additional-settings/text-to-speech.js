@@ -50,6 +50,7 @@ export const TextToSpeechSettings = () => {
 								},
 							} );
 						} }
+						__nextHasNoMarginBottom
 					/>
 				);
 			} ) }

@@ -187,33 +187,21 @@ export const useUserPermissionsPreferences = () => {
 export const isFeatureActive = ( feature ) => {
 	const isEnabled = '1' === feature.status;
 	const provider = feature?.provider;
-	const authenticated = feature[ provider ].authenticated;
+	const authenticated = feature[ provider ]?.authenticated;
 
 	return isEnabled && authenticated;
 };
 
 /**
- * Returns the onboarding steps.
+ * Returns true if a provider configuration is needed.
  *
- * @return {Array} Array of onboarding steps.
+ * @param {Object} feature The feature object.
+ * @return {boolean} True if the feature is enabled and provider configuration is needed, false otherwise.
  */
-export const getOnboardingSteps = () => {
-	return [
-		'enable_features',
-		'classifai_registration',
-		'configure_features',
-		'finish',
-	];
-};
+export const isProviderConfigurationNeeded = ( feature ) => {
+	const isEnabled = '1' === feature.status;
+	const provider = feature?.provider;
+	const authenticated = feature[ provider ]?.authenticated;
 
-/**
- * Get the next step in the onboarding process.
- *
- * @param {string} currentStep
- * @return {string} The next step in the onboarding process.
- */
-export const getNextOnboardingStep = ( currentStep ) => {
-	const steps = getOnboardingSteps();
-	const currentIndex = steps.indexOf( currentStep );
-	return steps[ currentIndex + 1 ];
+	return isEnabled && ! authenticated;
 };

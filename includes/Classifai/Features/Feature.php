@@ -361,6 +361,11 @@ abstract class Feature {
 		$settings = get_option( $this->get_option_name(), [] );
 		$settings = $this->merge_settings( (array) $settings, (array) $defaults );
 
+		// If saved provider is not supported anymore, reset it.
+		if ( ! in_array( $settings['provider'], array_keys( $this->get_providers() ), true ) ) {
+			$settings['provider'] = '';
+		}
+
 		if ( $index && isset( $settings[ $index ] ) ) {
 			return $settings[ $index ];
 		}
