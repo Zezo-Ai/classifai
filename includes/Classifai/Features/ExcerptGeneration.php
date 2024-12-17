@@ -345,6 +345,28 @@ class ExcerptGeneration extends Feature {
 	}
 
 	/**
+	 * Returns the settings for the feature.
+	 *
+	 * @param string $index The index of the setting to return.
+	 * @return array|mixed
+	 */
+	public function get_settings( $index = false ) {
+		$settings = parent::get_settings( $index );
+
+		// Keep using the original prompt from the codebase to allow updates.
+		if ( $settings && ! empty( $settings['generate_excerpt_prompt'] ) ) {
+			foreach ( $settings['generate_excerpt_prompt'] as $key => $prompt ) {
+				if ( 1 === intval( $prompt['original'] ) ) {
+					$settings['generate_excerpt_prompt'][ $key ]['prompt'] = $this->prompt;
+					break;
+				}
+			}
+		}
+
+		return $settings;
+	}
+
+	/**
 	 * Sanitizes the default feature settings.
 	 *
 	 * @param array $new_settings Settings being saved.

@@ -274,6 +274,37 @@ class ContentResizing extends Feature {
 	}
 
 	/**
+	 * Returns the settings for the feature.
+	 *
+	 * @param string $index The index of the setting to return.
+	 * @return array|mixed
+	 */
+	public function get_settings( $index = false ) {
+		$settings = parent::get_settings( $index );
+
+		// Keep using the original prompt from the codebase to allow updates.
+		if ( $settings && ! empty( $settings['condense_text_prompt'] ) ) {
+			foreach ( $settings['condense_text_prompt'] as $key => $prompt ) {
+				if ( 1 === intval( $prompt['original'] ) ) {
+					$settings['condense_text_prompt'][ $key ]['prompt'] = $this->condense_prompt;
+					break;
+				}
+			}
+		}
+
+		if ( $settings && ! empty( $settings['expand_text_prompt'] ) ) {
+			foreach ( $settings['expand_text_prompt'] as $key => $prompt ) {
+				if ( 1 === intval( $prompt['original'] ) ) {
+					$settings['expand_text_prompt'][ $key ]['prompt'] = $this->expand_prompt;
+					break;
+				}
+			}
+		}
+
+		return $settings;
+	}
+
+	/**
 	 * Sanitizes the default feature settings.
 	 *
 	 * @param array $new_settings Settings being saved.
