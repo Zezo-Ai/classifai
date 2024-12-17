@@ -293,7 +293,7 @@ class ImageTagsGenerator extends Feature {
 	 * @return string
 	 */
 	public function get_enable_description(): string {
-		return esc_html__( 'Image tags will be added automatically.', 'classifai' );
+		return esc_html__( 'Automatically add relevant tags to your images.', 'classifai' );
 	}
 
 	/**

@@ -738,7 +738,7 @@ class Classification extends Feature {
 	 * @return string
 	 */
 	public function get_enable_description(): string {
-		return esc_html__( 'Enables content classification.', 'classifai' );
+		return esc_html__( 'Classify your content automatically or when manually triggered.', 'classifai' );
 	}
 
 	/**

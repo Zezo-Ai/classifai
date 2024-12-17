@@ -345,7 +345,7 @@ class DescriptiveTextGenerator extends Feature {
 	 * @return string
 	 */
 	public function get_enable_description(): string {
-		return esc_html__( 'Enable this to generate descriptive text for images.', 'classifai' );
+		return esc_html__( 'Automatically generate descriptive text for images, storing this as image alt text, caption or description.', 'classifai' );
 	}
 
 	/**
