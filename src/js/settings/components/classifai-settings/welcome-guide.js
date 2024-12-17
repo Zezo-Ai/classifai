@@ -43,7 +43,7 @@ export const ClassifAIWelcomeGuide = ( { closeWelcomeGuide } ) => {
 				</p>
 				<p>
 					{ __(
-						'To get started, you need to follow a few simple steps:',
+						"To get started, you'll need to follow a few simple steps:",
 						'classifai'
 					) }
 				</p>
@@ -51,21 +51,15 @@ export const ClassifAIWelcomeGuide = ( { closeWelcomeGuide } ) => {
 					<li>
 						<strong>
 							{ __(
-								'Switch on the Feature you want to use. ',
+								'Turn on the Feature you want to use. ',
 								'classifai'
 							) }
 						</strong>
-						<NavLink to="/language_processing">
-							{ __(
-								'Visit the settings dashboard',
-								'classifai'
-							) }
-						</NavLink>
 					</li>
 					<li>
 						<strong>
 							{ __(
-								'Choose which AI Provider you want to use for that Feature. Ensure you have an account with that Provider.',
+								'Choose which AI Provider you want to use for that Feature. Ensure you have an account setup with that Provider.',
 								'classifai'
 							) }
 						</strong>
@@ -87,6 +81,14 @@ export const ClassifAIWelcomeGuide = ( { closeWelcomeGuide } ) => {
 								'classifai'
 							) }
 						</a>
+					</li>
+					<li>
+						<strong>
+							{ __(
+								'Repeat for all additional Features you want to use',
+								'classifai'
+							) }
+						</strong>
 					</li>
 				</ol>
 
