@@ -46,7 +46,7 @@ class TitleGeneration extends Feature {
 			ChatGPT::ID   => __( 'OpenAI ChatGPT', 'classifai' ),
 			GeminiAPI::ID => __( 'Google AI (Gemini API)', 'classifai' ),
 			OpenAI::ID    => __( 'Azure OpenAI', 'classifai' ),
-			ChromeAI::ID  => __( 'Chrome AI', 'classifai' ),
+			ChromeAI::ID  => __( 'Chrome AI (experimental)', 'classifai' ),
 		];
 	}
 
