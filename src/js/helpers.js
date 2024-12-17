@@ -110,15 +110,16 @@ export const chromeAITextGeneration = async ( prompt = '', content = '' ) => {
 		supportsTextGeneration &&
 		supportsTextGeneration.available === 'readily'
 	) {
-		const session = await window.ai.languageModel.create( {
-			initialPrompts: [
-				{
-					role: 'system',
-					content: prompt,
-				},
-			],
-		} );
 		try {
+			const session = await window.ai.languageModel.create( {
+				initialPrompts: [
+					{
+						role: 'system',
+						content: prompt,
+					},
+				],
+			} );
+
 			result = await session.prompt( `"""${ content }"""` );
 		} catch ( e ) {
 			// eslint-disable-next-line no-alert
