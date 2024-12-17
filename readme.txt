@@ -45,6 +45,11 @@ Tap into leading cloud-based services like [OpenAI](https://openai.com/), [Micro
 
 == Upgrade Notice ==
 
+= 3.2.0 =
+**Note that this release of ClassifAI rearchitects how the settings pages are built, from a standard PHP approach to using React components. If you've created custom Features or Providers or added your own custom settings, you'll need to update your code to work in this new structure. See our [documentation](https://10up.github.io/classifai/tutorial-useful-snippets.html) for examples.**
+
+**Also note that this release bumps the WordPress minimum from 6.1 to 6.5.**
+
 = 3.0.0 =
 **Note that this is a major release of ClassifAI that restructures most of the codebase and will have some breaking changes. If you're extending ClassifAI in any way, please ensure you fully test those integrations prior to running this update on production. For more details on what is changing, see the [migration guide](https://10up.github.io/classifai/tutorial-migration-guide-v2-to-v3.html).**
 
