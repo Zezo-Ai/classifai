@@ -3,19 +3,37 @@
  */
 import { __ } from '@wordpress/i18n';
 import { NavLink } from 'react-router-dom';
+import { Icon, Button, Flex, FlexItem } from '@wordpress/components';
+import { close } from '@wordpress/icons';
 
 /**
- * ClassifAI Onboarding Component.
+ * ClassifAI Welcome Guide Component.
  *
- * This component handles the rendering of the entire onboarding process for ClassifAI.
+ * This component handles the rendering of the Welcome Guide for ClassifAI.
  * It guides users through the necessary steps to configure and enable various features.
  *
- * @return {React.ReactElement} ClassifAIOnboarding component.
+ * @param {Object}   props                   Component props.
+ * @param {Function} props.closeWelcomeGuide Function to close the welcome guide.
+ *
+ * @return {React.ReactElement} ClassifAIWelcomeGuide component.
  */
-export const ClassifAIOnboarding = () => {
+export const ClassifAIWelcomeGuide = ( { closeWelcomeGuide } ) => {
 	return (
-		<div className="classifai-setup__content">
-			<h1>{ __( 'Welcome to ClassifAI', 'classifai' ) }</h1>
+		<div className="classifai-setup__content classifai-welcome-guide">
+			<Flex justifyContent="space-between" align="flex-start">
+				<FlexItem>
+					<h1>{ __( 'Welcome to ClassifAI', 'classifai' ) }</h1>
+				</FlexItem>
+				<FlexItem>
+					<Button
+						icon={ <Icon icon={ close } /> }
+						onClick={ () => closeWelcomeGuide() }
+						className="classifai-welcome-guide-close"
+						label={ __( 'Close welcome guide', 'classifai' ) }
+						showTooltip={ true }
+					/>
+				</FlexItem>
+			</Flex>
 			<div className="classifai-onboarding__welcome-note">
 				<p>
 					{ __(

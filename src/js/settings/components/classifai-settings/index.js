@@ -8,6 +8,7 @@ import {
 	HashRouter,
 	useParams,
 	NavLink,
+	useLocation,
 } from 'react-router-dom';
 
 /**
@@ -16,22 +17,17 @@ import {
 import { useDispatch } from '@wordpress/data';
 import { SlotFillProvider } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
-import { useEffect } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
 /**
  * Internal dependencies
  */
-import {
-	ClassifAIOnboarding,
-	FeatureSettings,
-	Header,
-	ServiceSettings,
-} from '..';
+import { FeatureSettings, Header, ServiceSettings } from '..';
 import { STORE_NAME } from '../../data/store';
 import { FeatureContext } from '../feature-settings/context';
 import { ClassifAIRegistration } from '../classifai-registration';
-import { useSetupPage } from '../classifai-onboarding/hooks';
+import { ClassifAIWelcomeGuide } from './welcome-guide';
 
 const { services, features } = window.classifAISettings;
 
@@ -81,39 +77,47 @@ const ServiceSettingsWrapper = () => {
  * @return {React.ReactElement} The ServiceNavigation component.
  */
 export const ServiceNavigation = () => {
-	const { isSetupPage } = useSetupPage();
-	if ( isSetupPage ) {
-		return null;
-	}
+	const location = useLocation();
+	const queryParams = new URLSearchParams( location.search );
+	const [ showWelcomeGuide, setShowWelcomeGuide ] = useState(
+		() => '1' === queryParams.get( 'welcome_guide' )
+	);
 
 	const serviceKeys = Object.keys( services || {} );
 	return (
-		<div className="classifai-tabs" aria-orientation="horizontal">
-			{ serviceKeys.map( ( service ) => (
+		<>
+			{ !! showWelcomeGuide && (
+				<ClassifAIWelcomeGuide
+					closeWelcomeGuide={ () => setShowWelcomeGuide( false ) }
+				/>
+			) }
+			<div className="classifai-tabs" aria-orientation="horizontal">
+				{ serviceKeys.map( ( service ) => (
+					<NavLink
+						to={ service }
+						key={ service }
+						className={ ( { isActive } ) =>
+							isActive
+								? 'active-tab classifai-tabs-item'
+								: 'classifai-tabs-item'
+						}
+					>
+						{ services[ service ] }
+					</NavLink>
+				) ) }
 				<NavLink
-					to={ service }
-					key={ service }
+					to="classifai_registration"
+					key="classifai_registration"
 					className={ ( { isActive } ) =>
 						isActive
 							? 'active-tab classifai-tabs-item'
 							: 'classifai-tabs-item'
 					}
 				>
-					{ services[ service ] }
+					{ __( 'ClassifAI Registration', 'classifai' ) }
 				</NavLink>
-			) ) }
-			<NavLink
-				to="classifai_registration"
-				key="classifai_registration"
-				className={ ( { isActive } ) =>
-					isActive
-						? 'active-tab classifai-tabs-item'
-						: 'classifai-tabs-item'
-				}
-			>
-				{ __( 'ClassifAI Registration', 'classifai' ) }
-			</NavLink>
-		</div>
+			</div>
+		</>
 	);
 };
 
@@ -193,10 +197,6 @@ export const ClassifAISettings = () => {
 						<Route
 							path=":service/:feature"
 							element={ <FeatureSettingsWrapper /> }
-						/>
-						<Route
-							path="classifai_setup"
-							element={ <ClassifAIOnboarding /> }
 						/>
 						<Route
 							path="classifai_registration"
