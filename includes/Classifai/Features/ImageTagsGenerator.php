@@ -372,7 +372,7 @@ class ImageTagsGenerator extends Feature {
 		/**
 		 * Filter taxonomies shown in settings.
 		 *
-		 * @since x.x.x
+		 * @since 3.2.0
 		 * @hook classifai_feature_image_tags_generator_setting_taxonomies
 		 *
 		 * @param {array} $supported Array of supported image taxonomies.

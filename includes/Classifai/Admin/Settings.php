@@ -205,7 +205,7 @@ class Settings {
 		/**
 		 * Filter IBM Watson NLU taxonomies shown in settings.
 		 *
-		 * @since x.x.x
+		 * @since 3.2.0
 		 * @hook classifai_settings_ibm_watson_nlu_taxonomies
 		 *
 		 * @param {array} $taxonomies Array of IBM Watson NLU taxonomies.

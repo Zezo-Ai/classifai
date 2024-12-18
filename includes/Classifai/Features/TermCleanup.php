@@ -314,7 +314,7 @@ class TermCleanup extends Feature {
 		/**
 		 * Filter the meta key for embeddings.
 		 *
-		 * @since x.x.x
+		 * @since 3.2.0
 		 * @hook classifai_feature_term_cleanup_embeddings_meta_key
 		 *
 		 * @param {string}      $meta_key Meta key for embeddings.
@@ -494,7 +494,7 @@ class TermCleanup extends Feature {
 			/**
 			 * Fires when an embedding is generated for a term.
 			 *
-			 * @since x.x.x
+			 * @since 3.2.0
 			 * @hook classifai_feature_term_cleanup_generate_embedding
 			 *
 			 * @param {int}            $term_id ID of term.
@@ -995,7 +995,7 @@ class TermCleanup extends Feature {
 		/**
 		 * Fires before terms are merged together.
 		 *
-		 * @since x.x.x
+		 * @since 3.2.0
 		 * @hook classifai_feature_term_cleanup_pre_merge_term
 		 *
 		 * @param {int}    $from     Term ID being merged.
@@ -1016,7 +1016,7 @@ class TermCleanup extends Feature {
 		/**
 		 * Fires after terms are merged together.
 		 *
-		 * @since x.x.x
+		 * @since 3.2.0
 		 * @hook classifai_feature_term_cleanup_post_merge_term
 		 *
 		 * @param {int}               $from     Term ID being merged.
@@ -1070,7 +1070,7 @@ class TermCleanup extends Feature {
 		/**
 		 * Fires before a term is skipped.
 		 *
-		 * @since x.x.x
+		 * @since 3.2.0
 		 * @hook classifai_feature_term_cleanup_pre_skip_term
 		 *
 		 * @param {int}    $term         Term ID being skipped.
@@ -1093,7 +1093,7 @@ class TermCleanup extends Feature {
 		/**
 		 * Fires after a term is skipped.
 		 *
-		 * @since x.x.x
+		 * @since 3.2.0
 		 * @hook classifai_feature_term_cleanup_post_skip_term
 		 *
 		 * @param {int}    $term         Term ID being skipped.

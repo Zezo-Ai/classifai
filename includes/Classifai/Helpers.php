@@ -664,15 +664,15 @@ function get_classification_mode(): string {
 /**
  * Determine if the legacy settings panel should be used.
  *
- * @since x.x.x
+ * @since 3.2.0
  *
  * @return bool
  */
 function should_use_legacy_settings_panel(): bool {
 	/**
-	 * Filter to determine if the legacy settings panel should be used.'
+	 * Filter to determine if the legacy settings panel should be used.
 	 *
-	 * @since x.x.x
+	 * @since 3.2.0
 	 * @hook classifai_use_legacy_settings_panel
 	 *
 	 * @param {bool} $use_legacy_settings_panel Whether to use the legacy settings panel.
