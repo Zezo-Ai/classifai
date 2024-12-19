@@ -290,8 +290,8 @@ class Grok extends Provider {
 					get_attached_file( $post_id ),
 					wp_get_attachment_url( $post_id ),
 					$metadata,
-					[ 512, 2000 ],
-					[ 512, 2000 ],
+					[ 28, 16000 ],
+					[ 28, 16000 ],
 					10 * MB_IN_BYTES
 				);
 			} else {
