@@ -28,6 +28,7 @@ import { AmazonPollySettings } from './amazon-polly';
 import { AzureTextToSpeechSettings } from './azure-text-to-speech';
 import { OpenAITextToSpeachSettings } from './openai-text-to-speech';
 import { ChromeAISettings } from './chrome-ai';
+import { XAIGrokSettings } from './xai-grok';
 
 /**
  * Component for rendering provider setting fields based on the selected provider.
@@ -84,6 +85,9 @@ const ProviderFields = ( { provider, isConfigured } ) => {
 
 		case 'openai_text_to_speech':
 			return <OpenAITextToSpeachSettings isConfigured={ isConfigured } />;
+
+		case 'xai_grok':
+			return <XAIGrokSettings isConfigured={ isConfigured } />;
 
 		case 'chrome_ai':
 			return <ChromeAISettings />;

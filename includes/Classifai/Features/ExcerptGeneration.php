@@ -2,6 +2,7 @@
 
 namespace Classifai\Features;
 
+use Classifai\Providers\XAI\Grok;
 use Classifai\Services\LanguageProcessing;
 use Classifai\Providers\GoogleAI\GeminiAPI;
 use Classifai\Providers\OpenAI\ChatGPT;
@@ -46,6 +47,7 @@ class ExcerptGeneration extends Feature {
 			ChatGPT::ID   => __( 'OpenAI ChatGPT', 'classifai' ),
 			GeminiAPI::ID => __( 'Google AI (Gemini API)', 'classifai' ),
 			OpenAI::ID    => __( 'Azure OpenAI', 'classifai' ),
+			Grok::ID      => __( 'xAI Grok', 'classifai' ),
 			ChromeAI::ID  => __( 'Chrome AI (experimental)', 'classifai' ),
 		];
 	}
