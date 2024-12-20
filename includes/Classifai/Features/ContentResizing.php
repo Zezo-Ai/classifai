@@ -6,6 +6,7 @@ use Classifai\Providers\Azure\OpenAI;
 use Classifai\Providers\GoogleAI\GeminiAPI;
 use Classifai\Providers\OpenAI\ChatGPT;
 use Classifai\Providers\Browser\ChromeAI;
+use Classifai\Providers\XAI\Grok;
 use Classifai\Services\LanguageProcessing;
 use WP_REST_Server;
 use WP_REST_Request;
@@ -53,6 +54,7 @@ class ContentResizing extends Feature {
 			ChatGPT::ID   => __( 'OpenAI ChatGPT', 'classifai' ),
 			GeminiAPI::ID => __( 'Google AI (Gemini API)', 'classifai' ),
 			OpenAI::ID    => __( 'Azure OpenAI', 'classifai' ),
+			Grok::ID      => __( 'xAI Grok', 'classifai' ),
 			ChromeAI::ID  => __( 'Chrome AI (experimental)', 'classifai' ),
 		];
 	}
