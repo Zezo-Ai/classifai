@@ -238,7 +238,7 @@ class Grok extends Provider {
 	 */
 	public function rest_endpoint_callback( $post_id = 0, string $route_to_call = '', array $args = [] ) {
 		if ( ! $post_id || ! get_post( $post_id ) ) {
-			return new WP_Error( 'post_id_required', esc_html__( 'A valid post ID is required to generate an excerpt.', 'classifai' ) );
+			return new WP_Error( 'post_id_required', esc_html__( 'A valid ID is required.', 'classifai' ) );
 		}
 
 		$route_to_call = strtolower( $route_to_call );
@@ -317,7 +317,7 @@ class Grok extends Provider {
 		/**
 		 * Filter the prompt we will send to xAI Grok.
 		 *
-		 * @since 3.2.0
+		 * @since x.x.x
 		 * @hook classifai_xai_grok_descriptive_text_prompt
 		 *
 		 * @param {string} $prompt Prompt we are sending to xAI Grok.
@@ -330,7 +330,7 @@ class Grok extends Provider {
 		/**
 		 * Filter the request body before sending to xAI Grok.
 		 *
-		 * @since 3.2.0
+		 * @since x.x.x
 		 * @hook classifai_xai_grok_descriptive_text_request_body
 		 *
 		 * @param {array} $body Request body that will be sent to xAI Grok.
