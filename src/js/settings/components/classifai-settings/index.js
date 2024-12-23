@@ -14,11 +14,12 @@ import {
 /**
  * WordPress dependencies
  */
-import { useDispatch } from '@wordpress/data';
-import { SlotFillProvider } from '@wordpress/components';
+import { useSelect, useDispatch } from '@wordpress/data';
+import { SlotFillProvider, SnackbarList } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 import { useEffect, useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
+import { store as noticeStore } from '@wordpress/notices';
 
 /**
  * Internal dependencies
@@ -28,6 +29,7 @@ import { STORE_NAME } from '../../data/store';
 import { FeatureContext } from '../feature-settings/context';
 import { ClassifAIRegistration } from '../classifai-registration';
 import { ClassifAIWelcomeGuide } from './welcome-guide';
+import { Notices } from '../feature-settings/notices';
 
 const { services, features } = window.classifAISettings;
 
@@ -122,6 +124,32 @@ export const ServiceNavigation = () => {
 };
 
 /**
+ * Snackbar component to render the snackbar notifications.
+ *
+ * @return {React.ReactElement} The Snackbar component.
+ */
+export const SnackbarNotifications = () => {
+	const { removeNotice } = useDispatch( noticeStore );
+
+	const { notices } = useSelect( ( select ) => {
+		const allNotices = select( noticeStore ).getNotices();
+		return {
+			notices: allNotices.filter(
+				( notice ) => notice.type === 'snackbar'
+			),
+		};
+	}, [] );
+
+	return (
+		<SnackbarList
+			className="classifai-settings-snackbar-notices"
+			notices={ notices }
+			onRemove={ ( notice ) => removeNotice( notice ) }
+		/>
+	);
+};
+
+/**
  * Main ClassifAI Settings Component.
  *
  * This component serves as the primary entry point for the ClassifAI settings interface.
@@ -188,6 +216,7 @@ export const ClassifAISettings = () => {
 				<Header />
 				<div className="classifai-settings-wrapper">
 					<div className="classifai-admin-notices wrap"></div>
+					<Notices feature={ 'generic-notices' } />
 					<ServiceNavigation />
 					<Routes>
 						<Route
@@ -211,6 +240,7 @@ export const ClassifAISettings = () => {
 						/>
 					</Routes>
 				</div>
+				<SnackbarNotifications />
 			</HashRouter>
 		</SlotFillProvider>
 	);
