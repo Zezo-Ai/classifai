@@ -174,7 +174,8 @@ export const SaveSettingsButton = ( {
 	setSettings,
 	onSaveSuccess = () => {},
 } ) => {
-	const { createErrorNotice, removeNotices } = useDispatch( noticesStore );
+	const { createErrorNotice, createSuccessNotice, removeNotices } =
+		useDispatch( noticesStore );
 	const notices = useSelect( ( select ) =>
 		select( noticesStore ).getNotices()
 	);
@@ -205,6 +206,12 @@ export const SaveSettingsButton = ( {
 
 				setSettings( res.settings );
 				onSaveSuccess();
+				createSuccessNotice(
+					__( 'Settings saved successfully.', 'classifai' ),
+					{
+						type: 'snackbar',
+					}
+				);
 				setIsSaving( false );
 			} )
 			.catch( ( error ) => {
