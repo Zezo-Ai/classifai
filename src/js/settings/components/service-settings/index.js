@@ -113,6 +113,10 @@ export const ServiceSettings = () => {
 						} );
 					} );
 					setIsSaving( false );
+					window.scrollTo( {
+						top: 0,
+						behavior: 'smooth',
+					} );
 					return;
 				}
 
@@ -138,6 +142,10 @@ export const ServiceSettings = () => {
 					}
 				);
 				setIsSaving( false );
+				window.scrollTo( {
+					top: 0,
+					behavior: 'smooth',
+				} );
 			} );
 	};
 

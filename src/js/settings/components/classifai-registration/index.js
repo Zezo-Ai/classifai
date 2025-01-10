@@ -201,6 +201,10 @@ export const SaveSettingsButton = ( {
 					);
 					setSettings( res.settings );
 					setIsSaving( false );
+					window.scrollTo( {
+						top: 0,
+						behavior: 'smooth',
+					} );
 					return;
 				}
 
@@ -226,6 +230,10 @@ export const SaveSettingsButton = ( {
 					}
 				);
 				setIsSaving( false );
+				window.scrollTo( {
+					top: 0,
+					behavior: 'smooth',
+				} );
 			} );
 	};
 
