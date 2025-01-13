@@ -129,7 +129,8 @@ export const ServiceNavigation = () => {
  * @return {React.ReactElement} The Snackbar component.
  */
 export const SnackbarNotifications = () => {
-	const { removeNotice } = useDispatch( noticeStore );
+	const { removeNotice, removeNotices } = useDispatch( noticeStore );
+	const location = useLocation();
 
 	const { notices } = useSelect( ( select ) => {
 		const allNotices = select( noticeStore ).getNotices();
@@ -139,6 +140,16 @@ export const SnackbarNotifications = () => {
 			),
 		};
 	}, [] );
+
+	useEffect( () => {
+		// Remove existing snackbar notices on location change.
+		if ( removeNotices ) {
+			removeNotices( notices.map( ( { id } ) => id ) );
+		} else if ( removeNotice ) {
+			notices.forEach( ( { id } ) => removeNotice( id ) );
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [ location, removeNotice, removeNotices ] );
 
 	return (
 		<SnackbarList
